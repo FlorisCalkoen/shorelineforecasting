@@ -1,0 +1,695 @@
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%% The first command in your LaTeX source must be the \documentclass command.
+
+% add table colouring (following ACM Latex support team)
+\PassOptionsToPackage{table,xcdraw}{xcolor}
+
+\documentclass[format=sigconf, review=false, screen=true]{acmart}
+
+\usepackage{todonotes}
+\usepackage{url}
+\usepackage{amsmath}
+
+
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmcopyright}
+\copyrightyear{2020}
+\acmYear{2020}
+\acmDOI{}
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[University of Amsterdam]{UvA '20: MSc-thesis Data Science, University of Amsterdam}{April 2020 }{Delft, The Netherlands}
+\acmBooktitle{UvA'20: MSc-thesis Data Science, University of Amsterdam, April 2020, Delft, The Netherlands}
+\acmPrice{}
+\acmISBN{}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+%%
+%% end of the preamble, start of the body of the document source.
+
+\setcopyright{none}
+
+\begin{document}
+
+\input{TitlePages/Thesis-Title-Page-DS}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+%\title{Forecasting Shoreline Evolution Using Satellite-Derived Shoreline Positions}
+
+\title{}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+%\author{Floris Reinier Calkoen}
+%%\authornote{Both authors contributed equally to this research.}
+%\orcid{10409599}
+%%\author{G.K.M. Tobin}
+%%\authornotemark[1]
+%%\email{webmaster@marysville-ohio.com}
+%\affiliation{%
+%  \institution{University of Amsterdam}
+%  \streetaddress{Science Park 904}
+%  \city{Amsterdam}
+%  \state{The Netherlands}
+%  \postcode{1098 XH}
+%}
+%\email{floris@calkoen.nl}
+
+\author{}
+%\authornote{Both authors contributed equally to this research.}
+\orcid{}
+%\author{G.K.M. Tobin}
+%\authornotemark[1]
+%\email{webmaster@marysville-ohio.com}
+\affiliation{%
+	\institution{}
+	\streetaddress{}
+	\city{}
+	\state{}
+	\postcode{}
+}
+\email{}
+
+%\author{Dr Arjen Luijendijk}
+%\affiliation{%
+%  \institution{Deltares}
+%  \streetaddress{Boussinesqweg 1}
+%  \city{Delft}
+%  \country{The Netherlands}}
+%\email{arjen.luijendijk@deltares.nl}
+%
+%\author{Dr Cristian Rodriguez Rivero}
+%\affiliation{%
+%	\institution{University of Amsterdam}
+%	\streetaddress{Science Park 904}
+%	\city{Amsterdam}
+%	\country{The Netherlands}}
+%\email{c.m.rodriguezrivero@uva.nl}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Floris R. Calkoen}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+	
+	Sandy beaches form an essential part of coastal zones as they have a key-role in the ecosystem, while providing socio-economic goods and services at the same time. Coastal managers and  planners, who face important decisions about these vulnerable zones, require state-of-the-art shoreline evolution models to deliver sustainable management which does not compromise the future. Recent advances in computing techniques have enabled a paradigm change from numerical shoreline forecasting to data-driven approaches. Yet, these data-driven forecasts fully rely on linear regression for predicting future shoreline positions. In this study we evaluate and present several algorithms capable of forecasting shoreline evolution beyond ambient linear change rates. Here, we evaluate both traditional and state-of-the-art forecasting algorithms in terms of suitability for predicting multi-annual shoreline evolution for approximately 50-thousand sites on sandy beaches all across the globe. We found that ARIMA and neural-network based LSTM algorithms are able to outperform linear regression baselines by various quality metrics. However, whereas optimizing ARIMA models tends to be computationally inefficient, LSTM models can be trained efficiently while being able to produce almost instantaneous forecasts: 10 thousand shoreline evolutions are generated in 1.58 seconds. More importantly, although ARIMA models are still outperforming shoreline evolution prediction for many sites, we present suggestions on how LSTM algorithms will be able to surpass ARIMA models also in terms of quality metrics. These algorithms can be used to project and explore ambient shoreline-dynamics beyond linear trends, which, when combined with other projection such as sea-level-rise, may become an invaluable tool for sustainable management of the coastal zone.  
+
+\end{abstract}
+
+
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%% Check again for final version. 
+\begin{CCSXML}
+	<ccs2012>
+	<concept>
+	<concept_id>10010405.10010432.10010437</concept_id>
+	<concept_desc>Applied computing~Earth and atmospheric sciences</concept_desc>
+	<concept_significance>500</concept_significance>
+	</concept>
+	</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Applied computing~Earth and atmospheric sciences}
+
+
+
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{Shoreline-Evolution, RNN-Forecasting, Time-Series, Coastal-Engineering}
+
+%  Here was the teaser image. See original template if I need it again. 
+
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+
+
+%\section{Personal details}
+%
+%\begin{description}
+%	\item[Floris Reinier Calkoen] \url{mailto:floris@calkoen.nl }
+%	\item[Dr Cristian Rodriguez Rivero] \url{mailto:c.m.rodriguezrivero@uva.nl }
+%	\item[Dr Arjen Luijendijk ] \url{mailto: arjen.luijendijk@deltares.nl}
+%	\item[MSc Eti\"enne Kras] \url{mailto: etienne.kras@deltares.nl}
+%	\item[Code] \url{https://github.com/florisrc/future-shorelines.git}
+%\end{description} 
+
+
+
+\section{Introduction}
+
+Sandy beaches form an essential part of coastal zones as they have a key-role in the ecosystem, while providing socio-economic goods and services at the same time. Despite the ecological and social importance of these ecosystems, sandy beaches are increasingly under anthropogenic pressure. Nowadays global climate change, with sea-level-rise in particular, adds a new dimension to the yet existing anthropogenic pressures on sandy beaches\citep{Team2014ipcc}. Sea levels have already risen throughout the twentieth century and are expected to rise increasingly this century, effectively constituting another serious threat to stability of coastal ecosystems \citep{Nicholls2010sea}. 
+
+Shoreline retreat can particularly be harmful to coastal communities,  natural preserves and infrastructure. It is therefore that effective management of sandy shores includes sustainable multiple use that does not comprise the future \citep{Brown2010ecology}. Furthermore, effective management also requires optimal long-term sustainable use of the sandy coasts and maintenance of the most natural environment possible \citep{Brown2010ecology}. Consequently, coastal managers have an increasing need for accurate shoreline evolution models, effectively allowing them to evaluate vulnerability and protect coastal infrastructure, human safety and habitats \citep{Long2012extended}. 
+
+Traditionally dynamic coastal zones have been hard to monitor since it required time-consuming field work and/or expensive imagery stations at multiple locations. However, most of these constraints can nowadays be overcome by using Earth observation satellite data; during the last years remote sensing data have played an increasingly important role in achieving data-driven understanding of beach dynamics on various time- and spatial scales \citep{Luijendijk2018state, Murray2018global, Vos2019sub, harley2019shoreline}.
+
+Typically shoreline evolution is forecasted at local level by process-driven models, e.g. \citep{Davidson2010forecasting, Davidson2011effect, Long2012extended}. Despite the fact that these models have provided a step from accidental to rather intentional coastal engineering \citep{Kras2019shoreline}, they are relatively labour and computationally expensive --- especially when such studies aim to cover mesoscale or larger areas. 
+However, nowadays the combination of unprecedented data sources, major improvements in graphical processing unit (GPU) based computing \citep{raina2009large}, and recent advances in statistical modelling and machine learning (ML) offer exciting new opportunities for expanding our knowledge about the Earth system from data \citep{Reichstein2019deep}. These advances have already contributed to numerous studies, including a global-scale assessment of sandy-beaches and rates of shoreline change therein by \citet{Luijendijk2018state}. More recently the ambient shoreline change rates present in the \citet{Luijendijk2018state} satellite-derived shoreline (SDS) position data have been used in combination with sea-level-rise (SLR) models to determine which shorelines are under extinction threat at certain greenhouse gas (GHG) emission rates \citep{vousdoukas2020sandy}. 
+
+Here, we also aim to take advantage of the extensive amount of data, computer resources and wide variety of ML models that nowadays exist. Like \citet{vousdoukas2020sandy} we use \citet{Luijendijk2018state} SDS data to forecast multi-annual shoreline evolution. However, \citet{vousdoukas2020sandy} found their study upon ambient linear change rates, which is an arbitrary assumption since for many sites the historical shoreline positions cannot simply be linearly extrapolated to forecast the future. We therefore specifically aim to improve this ambient fit. Experimenting with both traditional- and deep learning (DL) ML approaches, we here use the long records of SDS positions \citep{Luijendijk2018state} to evaluate which forecasting approach is most suitable to forecast multi-annual shoreline evolution. Ultimately this will allow coastal managers and planners, who face important decision about the vulnerable coastal zones, to anticipate the future from a data-driven  perspective. The SDS positions \citep{Luijendijk2018state} we consider in this study are obtained at 500-m spaced alongshore transects placed all across the globe. In total approx. 1.78 million transects are included, each of them consisting of SDS position data from 1984 until 2016; i.e., 1.78 million time series with up to  observations 52 observations per series. 
+
+
+Forecasting can be understood as predicting the future as accurately as possible, given all of the information available, including historical data and knowledge of any future
+events that might impact the forecasts \citep{Hyndman2018forecasting}. Nowadays there exist a wide range of statistical and learning-based forecasting techniques \citep{Hyndman2018forecasting}, including linear regression (LR), several types of autoregression-based methods, regression-trees and DL approaches; the appropriate forecasting method depends largely on what data are available. 
+
+In this study we focus on quantitative forecasting as information (SDS positions) about the past is available as numerical time series data. We are convinced that it is reasonable to assume that some aspects of the past patterns will continue in the future. The principal objective of this project is to determine what forecasting techniques are suitable for predicting shoreline evolution from historical SDS time-series data. It therefore involves a general study of available methods and an evaluation by performance for the selected approaches.
+
+Traditionally simple methods, a combination of three common exponential smoothing (ES) methods (Comb) have outperformed more complex ones in time-series forecasting \citep{Clements2001explaining}. However, this all changed during the world's most renowned forecast competition (M-competition) in 2018, when 17 models were able to outperform the Comb benchmark \citep{Makridakis2018m4}. Based on these insights from the M4 competition we expect that DL based approaches will outperform traditional statistical methods in our forecasting problem, especially since we have large quantities of time-series readily available. 
+
+%Here a time series is understood as a series of data points (shoreline-positions) indexed (or list or graphed) in time order. 
+
+
+
+
+
+
+
+\subsection{Research questions}
+
+The overall objective is to determine which forecast techniques are most suitable for predicting multi-annual shoreline evolution at a global level using historical SDS positions. Naturally this involves comparing different forecasting algorithms by quality metrics. Furthermore it includes explainability of the results by the different forecast algorithms. Since the overall aim is to generate predictions for many thousands sites across the globe, cost of computation will also be taken into account in the evaluation. These objectives can essentially be summarized into the following questions: 
+
+\begin{enumerate}
+	\item What forecasting techniques are suitable for predicting shoreline evolution from SDS position data? Both in terms of quality metrics and cost of computation. 
+
+	\item To what extent can performance of the different algorithms used be explained with respect to the physical dynamics of the site that the time series describes? 
+
+\end{enumerate}
+
+
+\section{Related Literature} 
+
+\subsection{Shoreline monitoring}
+
+Although the shoreline is strictly defined as the intersection of water and land surfaces, the dynamic nature of this boundary and its dependence on the temporal and spatial scale at which it is being considered, results to use a range of shoreline indicators \citep{Boak2005shoreline}. Originally there exist two types of shoreline position proxies: the high-water line and the intersection of a tidal datum with the coastal profile \citep{Boak2005shoreline}. In this study however, we will built on research that has used another type of indicator, based on image-processing techniques. In recent years advances in image processing has been one of the key factors that led to several coastal monitoring applications \citep{Murray2018global}; some of them directly targeting shoreline monitoring \citep{Luijendijk2018state, harley2019shoreline, Calkoen2019beaches, Vos2019sub}. All these applications relied on supervised classification, at pixel level, of composite satellite imagery which is nowadays publicly available on several cloud platforms, like Google Earth Engine \citep{Gorelick2017google}. The supervised classification algorithms used in these types of studies are usually some sort of computationally cheap decision tree algorithms, e.g., CART or random forest. They are able to provide excellent results in satellite imagery classification when spectral indices are used as input features. These spectral indices are combinations of spectral reflectance from two or more wavelengths that indicate the relative abundance of features of interest. Vegetation indices are the most popular type but other indices are available for burned areas, man-made (built-up) features, water, and geologic features \citep{Calkoen2019beaches}. For shoreline detection, the relevant spectral bands are the visible bands (blue, green red), the near-infrared band (NIR) and the short-wave infrared band (SWIR1) \citep{Vos2019sub}. Water and wet surfaces characteristically show strong absorption in the NIR and SWIR spectrum, while dry soils, dry sand and vegetation are highly reflecting radiation in these spectral ranges. Therefore, these spectral bands and indices derived thereof, have a high potential for measuring moisture levels in soils and vegetation and are now widely used indicators for water body delineation and wetland mapping. For derivation of the SDS positions which constitute the data in this study, especially the Normalized Difference Water Index (NDWI) was extensively used. 
+
+The quality of (historical) shoreline monitoring studies is proportional to the temporal and spatial resolution of the satellites providing data. With advances in remote sensing technology over the last decades both temporal and spatial resolution have steadily increased \citep{wulder2019current}. The long running record of the Landsat program and its global coverage make the data exceptionally useful for large scale studies on multi-annual to multi-decadal time frame, especially since it has been freely available from onward 2008 \cite{zhu2019benefits}. The data we use in this study is coming from the shoreline monitor developed by \citet{Luijendijk2018state}, which was also derived from the historical Landsat data. The spatial resolution of the sensor's used in the Landsat program has generally been 30-m, but increased to 15-m in Landsat- 7 and 8 for some of the bands. \citet{hagenaars2018accuracy} found that the accuracy of SDS detection is within sub-pixel precision (15-m) when composite images are used. 
+
+The shoreline monitor presented by \citet{Luijendijk2018state} in 2018 is an interactive application where shoreline change rates, presented at an alongshore resolution of 500-m, can be explored at a global level. In their study they tracked historical shoreline evolution (1984 - 2016) using this remote sensing Landsat data. To classify the imagery at pixel level they used a CART classifier (97\% of true positives). Subsequently historical shoreline evolution was tracked at a global level with 500-m alongshore spaced transects. With their study they constructed a dataset consisting of approximately 2.2 million transects, each having annual shoreline trends (max 33 points).  
+
+In the following years several students conducted their thesis projects at Deltares\footnote{\url{https://www.deltares.nl/en/}} using \citet{Luijendijk2018state} dataset. In 2018 \citet{Wang2018signal}  performed a signal analysis on the shoreline monitor data to find the shoreline drivers. She concluded that the drivers present in the satellite derived shoreline monitor data are equal to several drivers found in the literature. Furthermore \citet{Wang2018signal} found that the 33-yr signal is not long enough to observe the effects of sea-level-rise (SLR). Meanwhile \citet{Leeuwen2018shoreline} conducted a review study of the global transect system. He found that inaccuracies are frequently related to weather-induced disturbances and geometrical features, like estuaries, bays, delta's, river-mouths, shallow shorelines and man-made structures.  Later, \citet{Kras2019shoreline} revised the SDS position dataset and removed approximately 400 thousand transects by adding polar boundaries. Furthermore he statistically classified all shoreline evolution time-series into natural- and human-induced evolution. He found that natural and human-induced shoreline evolution account, respectively, for 16\% and 25\% of the total global shoreline evolution signals. 
+    
+\subsection{Forecasting}
+
+Forecasting in the physical sciences began in the early 1700s with Hally's comet predictions \citep{makridakis2020stateOfTheArt}. Since then it has been a scientific discipline which steadily became more advanced and nowadays there exist a wide range of approaches to forecasting \citep{Hyndman2018forecasting}. In recent years shoreline positions have also been successfully forecasted \citep{Davidson2010forecasting, Armenio2019coastline}. However, despite being able to forecast on a multi-annual time-frame, these approaches are limited to relatively small spatial area's since they are based upon modelling empirical relations of complex environmental processes; it requires knowledge of a large quantity of variables characterized by high spatial variability. Data-driven models do not suffer from these limitations and might be an attractive alternative to numerical approaches of shoreline forecasting; applicable at spatially large area's, while also being relatively cheap in terms of computation. 
+
+%Generally the appropriate forecast methods depends largely on the type of data which is available. 
+
+Despite the fact that classifying forecasting methods is a topic of active debate \citep{januschowski2020criteria}, we will here, for practical purposes, distinguish between two approaches to time series forecasting: the more traditional, so-called statistical \citep{Makridakis2018m4}, approaches and the relatively newer, data-driven ML techniques. LR, ES and ARIMA-like are approaches we here consider to belong to the realm of statistical methods, while neural-network-based models are classified as ML approaches. In this study we evaluate whether it is favourable to use the newer ML approaches for shoreline forecasting in terms of performance metrics and cost of computation. 
+
+Traditionally time series forecasting has been dominated by linear methods like ARIMA because they are well understood and effective on many problems \citep{brownlee2018deep}. Nevertheless the classical approaches often suffer from several limitations \citep{brownlee2018deep}. Firstly, missing data is often unsupported. Secondly, they assume linear relationships, which excludes more complex joint distributions. Thirdly, they focus on fixed temporal dependence; the relationship between observations at different times must be diagnosed and specified. Fourthly, their focus is on univariate data, while many real-world problems have multiple input variables. Finally, their focus is mostly on one-step forecasts, while many real-world problems require forecasts with a long time horizon, including prediciting multiple time steps ahead. 
+
+Neural networks (NN) are able to represent arbitrary complex non-linear mappings from inputs to outputs, while also supporting multiple inputs and outputs \citep{brownlee2018deep}. They are therefore powerful tools that offer a lot of premise for time series forecasting, especially when considering complex non-linear dependencies, multivalent inputs, and multi-step forecasting \citep{brownlee2018deep}. However, it is important to note that usage of these NN's assumes that there is indeed a meaningful mapping from inputs to outputs to learn. 
+
+One type of NN, recurrent-neural-networks (RNN) especially suggests to be a good fit for time series forecasting since they have native support for sequences: they add explicit handling of order between observations when learning a mapping from inputs to outputs. However, one of the major drawbacks of vanilla RNN's is they are known to suffer from the vanishing gradients problem regarding long-term dependencies \citep{hochreiter1998vanishing}. A specific type of RNN's, LSTM's are specifically designed to surpass this problem \citep{hochreiter1997long}. Here, the hidden units learn some kind of feature representations of the raw input, while feeding hidden units back to themselves in each time-step can be interpreted as providing the network with dynamic memory \citep{benidis2020neural}.  
+
+Depending on the architecture such models can generate one-step and/or multi-step forecasts. One-step forecasting models only generate the next time step of the time series ($\tau = 1$), but may be used to generate multi-step forecasts with teacher forcing, i.e., recursively feeding the network with its own one-step ahead estimate. However, this approach is known to suffer from error accumulation since early forecast errors propagate through the network. Seq2seq architecture can be used to overcome this problem; the decoder architecture is set to output all future target values at once, which effectively removes the need to unroll over the forecast horizon. 
+
+%Deep learning neural networks are able to automatically learn arbitrary complex mappings from inputs to outputs and support multiple inputs and outputs. These are powerful features that offer a lot of promise for time series forecasting, particularly on problems with complex non-linear dependencies, multivalent inputs, and multi-step forecasting.  Implicit in the usage of neural networks is the requirement that there is indeed a meaningful mapping from inputs to outputs to learn; modelling a mapping of a random walk will perform no better than a persistence model, i.e., the last seen observation as the forecast \citep{brownlee2018deep}. Recurrent neural networkds, like the Long Short-Term Memory (LSTM) add the explicit handling of order between observations when learning a mapping function from inputs to outputs; they have native support for sequences. The capabilities of deep learning neural networks suggest a good fit for time series forecasting.  LSTM networks support efficient learning of temporal dependencies. 
+
+In the forecasting discipline one distinguishes between local and global models. With local models, the learnable parameters are determined individually for each time series in a collection. Classical local models, such as state space models (SSMs), ARIMA and ES, are known to excel at modelling the complex dynamics of individual time series given that they are provided sufficient history \cite{benidis2020neural}. However, since the models are built individually per time series they cannot effectively extract information across multiple time-series. With global models, to the contrary, free parameters are learned jointly on every series in the collection of time series. Therefore these type of models are able to extract patterns from irregular collections of time series which cannot be distinguished at the individual level. Recent studies have demonstrated that DL are particularly well suited at taking advantage of large amounts of data to learn parameters of a single global model over a collection of time series \cite{benidis2020neural}. Contrary to classical models, with DL the developed model can be used to forecast multiple time series; it is not updated or changed between the forecasts and can be considered static. NN based approaches for time series forecasting are best suitable when large quantities of time series data are available \cite{benidis2020neural}. By definition, with enough computation resources available, NN's should be able to outperform the capabilities of classical linear forecasting methods given their ability to learn arbitrary complex non-linear mappings from inputs to outputs. Finally a third approach, the so-called local-global (or: hybrid) models, combine the two methods and aim to take advantage of both methodologies by integrating aspects of both model classes into a single model \citep{benidis2020neural}. 
+
+Traditionally simple methods have outperformed more complex ones in time-series forecasting \citep{Clements2001explaining, Makridakis2018m4}. However, nowadays the traditional methods have been outperformed by hybrid approaching combining statistical and ML techniques \citep{Smyl2020hybrid}. Recently this view was even further challenged by \citet{Oreshkin2020NBEATSNB}, who asserted that their N-BEATS model provides the long-missing proof of concept for the use of pure ML in time series forecasting. In this study we explore whether such ML approaches are also favourable to traditional methods for forecasting shoreline evolution. We therefore evaluate four different forecast approaches, of both traditional and ML type;  LR, ES, ARIMA and a sequence-to-sequence NN. Each of these models will be provided with the same task: forecast future shoreline positions given a historical collection of SDS positions. In total more than 1.78 million time-series are considered. Therefore it can be expected that NN's might be able to extract patterns which are not distinguishable at individual level. Most likely they will also be advantageous in terms of computation. Since the observations are available at different sites this task can be considered spatio-temporal forecasting \citep{pmlr-v89-mariet19a}. In such problem it is natural to expect correlations between time-series to decay as the geographical distances between them increases \cite{pmlr-v89-mariet19a}. 
+
+     
+
+%The so-called local-global (or hybrid) models combine these two methods and aim to take reconcile the advantages of both models into one. Combing methods from different models often increases forecast accuracy \cite{bates1969combination}. Hybrid models go beyond combining methods by directly integrating aspects of different model classes into a single model \cite{benidis2020neural}. The ES-RNN model proposed by \cite{Smyl2020hybrid} is an example of such hybrid model within the local-global model class.
+
+
+
+%\begin{enumerate}
+%	\item Focus on complete data; missing data is generally unsupported.
+%	\item Focus on linear relationships; assuming a linear relationship excludes more complex joint distributions.
+%	\item Focus on fixed temporal dependence: the relationship between observations at different times, and in turn different number of lag observations provided as input, must be diagnosed and specified. 
+%	\item Focus on univariate data: many real-world problems have multiple input variables. floris@calkoen.nl \\
+%	\item Focus on one-step forecasts: many real-world problems require forecasts with a long time horizon. 
+%\end{enumerate} 
+
+
+
+%Traditionally simple methods, a combination of three common exponential smoothing methods (Comb) have outperformed more complex ones in time-series forecasting \citep{Clements2001explaining}. However, this all changed during the world's most renowned forecast competition (M-competition) in 2018, when 17 models were able to outperform the Comb benchmark \citep{Makridakis2018m4}. The most important findings of the M4 Competition was that the combination of methods led to better results. Furthermore it was surprisingly found that a "hybrid" approach, using both statistical and ML features, produced the most accurate forecasts and precise prediction intervals. In line with \citet{Makridakis2018statistical}, it was also found that the six pure ML methods were not able to outperform Comb. 
+
+
+
+
+
+%\subsubsection{Local versus global models}
+
+%With local models, the learnable parameters are determined individually for each series in a collection of time series. Classical local models, such as state space models (SSMs), ARIMA and exponential smoothing, are known to excel at modelling the complex dynamics of individual time series given that they are provided sufficient history \cite{benidis2020neural}. Since the models are built individually per time series they cannot effectively extract information across multiple time-series. 
+%
+%With global models the free parameters are learned jointly on every series in a collection of time series. Recent studies have demonstrated that deep learning models are particularly well suited at taking advantage of large amounts of data to learn parameters of a single global model over a collection of time series \cite{benidis2020neural}. These type of models are able to extract patterns from irregular collections of time series which cannot be distinguished at the individual level. 
+%
+%The so-called local-global models combine these two methods and aim to take reconcile the advantages of both models into one. Combing methods from different models often increases forecast accuracy \cite{bates1969combination}. Hybrid models go beyond combining methods by directly integrating aspects of different model classes into a single model \cite{benidis2020neural}. The ES-RNN model proposed by \cite{Smyl2020hybrid} is an example of such hybrid model within the local-global model class.
+
+
+%In 2010 \citet{Davidson2010forecasting} notes that seasonal to interannual time-scales models for shoreline change have yet to deliver reliable predictions, while simple empirical approaches have been successful on a multi-annual time-frame, but can often only make predictions for a specific site. In the same study he presents a 1D shoreline model for forecasting shoreline positions at seasonal to interannual time-scales. More recently \citet{Armenio2019coastline} presents a chain to 
+
+
+\section{Methodology}
+
+%Nowadays a wide range of open source forecasting tools is available \cite{januschowski2019open}. Most of them are targeted towards the Python programming language as this has been the language of choice in deep learning. 
+
+\subsection{Data description}
+
+%This study will be based upon a dataset, constructed by \citet{Luijendijk2018state}, of satellite-derived shoreline positions. It consists of roughly 2 million time-series, each spanning about 40 years, of satellite-derived shoreline positions. The raw data consists annual shoreline-positions and further includes geomorphological, geospatial change-rate statistics data. This data is available in both CSV- and JSON-format. Furthermore we also have access to processed and updated version of this shoreline-position dataset constructed by \citet{Kras2019shoreline}.  It only spans relatively small regions of France, Australia, Egypt, USA and Vietnam, but besides corrected timestamps and distances this dataset also includes biweekly time-series.
+
+
+%Transect \texttt{BOX\_187\_090\_56} (4.5577$^\circ$, 52.4512$^\circ$) is located south of the IJmuiden jetty in The Netherlands. The jetty blocks longshore transport, which is predominantly in northern direction in this area. Therefore higher accretion rates are observed on the southern side, while there is some minor accretion on the northern side, which is related to tidally-forced southward sediment transport.
+
+Following \citet{malhotra2015long} we formally define a time series as vector $X = \{x^{(1)}, x^{(2)},..., x^{(n)}\}$, where each element $\mathbf{x}^{(t)} \in R^{m}$ pertaining to $X$ is an array of m values such that $\{x_1^{(t)}, x_2^{(t)},..., x_n^{(t)} \}$. The data we used in this project consists of historical numerical time-series describing SDS positions on a global level. The SDS are computed on 500-m alongshore globally spaced transects (Fig. \ref{fig:ts-example}), derived from open street-map (OSM) data \cite{Luijendijk2018state}. Figure \ref{fig:ts-example} shows one of the SDS position time-series, with an overview of the surrounding area in the lower-right corner. Although the raw data includes metadata describing several features, such as the country id of the observation and whether the site is located at on sandy beach, it has one feature which varies over time: the relative shoreline position (m); therefore the time series can be considered univariate. In total the shoreline monitor consists of roughly 2.2 million time series. However, in this study we used the revised dataset constructed by \citet{Kras2019shoreline}, who excluded around 400 thousand noisy transects located in the polar latitudes. The inputs provided to the models consist of historical shoreline positions while the outputs are prediction(s) for future time step(s) beyond the data provided as input. Since the observations for the shoreline positions depend upon each other; $x^{t}$ depends upon $x^{t-1}$ etc., the input data can be considered endogenous \citep{brownlee2018deep}. The time series data are understood as hierarchically unstructured \citep{pmlr-v89-mariet19a} since all shoreline observations are made at the same level; 500-m spaced alongshore transects with no obvious systematic time-dependent pattern in a time series variable. In this study we are interested in forecasting more than one time-step (1 yr) ahead; therefore this it can be characterized as a multi-step forecasting problem. The SDS position observations are made at an irregular interval (Fig. \ref{fig:ts-example}); therefore the raw SDS data is unevenly spaced along the time domain (discontinuous). In practice annual-like averaged SDS position data, constructed by \citet{Luijendijk2018state}, is used. These series are nevertheless unevenly spaced (Fig. \ref{fig:ts-example}) as the averages are not exactly calculated annually, while there are also some missing observations for most of the transects.
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/ts-example.pdf}
+	\caption{Relative shoreline positions at transect \texttt{BOX\_187\_090\_56}, located south of the IJmuiden-jetty, The Netherlands. The transect of this time-series is indicated with an arrow, while the colour and length of the transects are representative for respectively their accretion or erosion trends during 1984-2016. The jetty has been built pre-1984 we therefore observe gradual accretion since then. The jetty has been extended in 1984 effectively blocking longshore transport causing both side to accreted. In The Netherlands the net-sediment transport is in northward direction, while tide causes some accretion at the northern side.}
+	\Description{Time-series example}
+	\label{fig:ts-example}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/geospatial-spread.pdf}
+	\caption{Geospatial visualization of transects with SDS positions included in the study. }
+	\Description{Spatial spread transects}
+	\label{fig:spatial-spread}
+\end{figure}
+
+\subsection{Pre-processing}
+
+The revised raw shoreline monitor data consists of approximately 1.78 million transects which each contain between 1 and 52 SDS position observations. These observations are not annually; in total there exist 83 unique time-chunks over the 33 years (1984-2016) of SDS position data. The data also includes several features for each of these transects; such as geospatial location and whether the site was located at a sandy beach. The time series data was separated from the metadata and transformed to a flat table structure. Following \citet{Kras2019shoreline}, the available metadata was directly used to make a certain selection of the data. Only sites located at sandy beaches were selected, whereas transects with undetermined sediment composition were intentionally left out. Also those transects with a linear change rater larger than 100-m yr$^{-1}$ and/or containing less than 5 annually-averaged shoreline positions were left out. Finally, transects having a temporal coverage of less than 7 years when the linear change rate was put to NaN were also dropped. This selection reduced the overall missing values from 25\% to 7\%, while the average timespan increased from 26 to 31 years. Statistics of transect count, nan's and timespan for the different data selections are shown in table \ref{tab:data-selection}. The outliers removal was two-folded: outliers-1 (RMSE-based) were detected by \citet{Luijendijk2018state} and removed priorly to outliers-2, which were detected by \citet{Kras2019shoreline}. Only transects with a relatively low ($<$15\%) percentage of NaN's were selected, effectively reducing the overall missing values to 6.6\%. After computing yearly averages, the remaining missing values were linearly interpolated in both directions. An example of a time-series before being pre-processed can be observed in figure \ref{fig:ts-example}, while this same time-series is also shown in \ref{fig:lr-example} after being pre-processed. The geospatial distribution of the transects included in this study is shown in figure \ref{fig:spatial-spread}. The figure shows that although the transects are located across the whole world, certain areas, such as Europe, are under-represented due to a spatially unequal distribution in frequency of earth-observations by the Landsat program \citep{wulder2016global} and the relatively higher cloud cover in certain areas \citep{garcia2008spatial}.    
+
+
+\begin{table}[ht]
+	\centering
+	\caption{Count, nan, and timespan statistics while gradually selecting the final dataset.}
+	\label{tab:data-selection}
+	\begin{tabular}{lllll}
+		\toprule
+		\textbf{Selection}           & \textbf{Sites (n)} & \textbf{Nan's (n)} & \textbf{Nan's (\%)} & \textbf{T (yr)} \\
+		\midrule
+		Raw data                     & 1780724              & 11841277           & 25.2                & 26.4             \\
+		Sandy              & 666555               & 4305559            & 24.3                & 26.5             \\
+		Drop sed. comp.    & 655167               & 4085411            & 23.3                & 26.8             \\
+		Drop low shlines             & 638368               & 3577115            & 20.5                & 27.4             \\
+		Drop err chngert.              & 637611               & 3560182            & 20.4                & 27.4             \\
+		Drop err tspan.                 & 635648               & 3513763            & 20.1                & 27.5             \\
+		Sample                       & 133684               & 1018698            & $\sim$20.1          & $\sim$27.5       \\
+		Drop outliers                & 133684               & 1018698            & 30.0                & 25.4             \\
+		Drop Nan's \textgreater 15\% & 50666                & 103754             & 6.6                 & 31.0            \\
+		\bottomrule
+	\end{tabular}
+\end{table}  
+
+
+%\subsection{Trend}
+%
+%It is good practice to manually identify and remove systematic structures from time series data to make the problem easier for the model (e.g., make the series stationary), and this may still be best practice when using recurrent neural networks. But, the general capability of these networks suggests that this may not be a requirement for a skilful model. Technically, the available context of the sequence provided as input may allow neural network models to learn both trend and seasonality directly. 
+
+
+%The accuracy and precision of the ES-RNN model depends mostly on the quality of the data ingested into the model. It is therefore especially important to adequately pre-process the data. This will involve dealing with outliers, NaN's and filtering noisy transects. Furthermore it will also involve dealing with consistent patterns, trends, seasonality and cycles, which were identified by \citet{Wang2018signal}. 
+
+\subsection{Feature extraction}
+
+Several features were created using the time series SDS data. With \citet{seabold2010statsmodels}'s statistical tools the adfuller test was applied to the time series to test for a unit root; while the KPSS test was applied to test for trend stationary. These were used to derive stationary time series; adfuller test rejected ($\alpha$=0.01), while KPSS not rejected ($\alpha$=0.1). Furthermore the maximum $\Delta SDS (m) $ was computed for each of the transects in both positive and negative direction. Using these maximum changes in both directions the time series were classified into 3 categories by range $\{0, 70\}$, $\{70, 200\}$, $\{\textgreater 200\}$. Additionally the transects where clustered into 4 categories using K-Means clustering \cite{seabold2010statsmodels} with the min/max $\Delta SDS (m) $ and the standard deviation in the linear fit of the SDS series. 
+
+\subsection{Traditional models}
+
+All traditional methods described below involved fitting a model per time series each, i.e., the models were build locally. The SDS position data is divided into train/test partitions with respectively 24 to 9 year ratio; models were fit on the training set and evaluated by means of quality metrics on the test set. 
+
+Simple linear regression (Eq. \ref{eq:lr}) describes a linear relationship between forecast variable $y$ and single predictor variable $x$. In eq. \ref{eq:lr} coefficients $\beta_0$ and $\beta_1$ refer respectively to the intercept and slope, while $\epsilon$ denotes the error term.  
+
+\begin{equation}
+\label{eq:lr}
+y_t = \beta_o + \beta_1x_t + \epsilon_t
+\end{equation}
+
+Exponential smoothing (Eq. \ref{eq:es}) is a weighted average between the current true value and the previous model values. Variable $\alpha$ is the smoothing factor, which defines how much weight is given to observations in the past; the smaller $\alpha$, the more value the past observations will have, i.e., the series becomes smoother. Optimized values for $\alpha$ were automatically set on the training set by use of \citet{seabold2010statsmodels}. 
+
+\begin{equation}
+\label{eq:es}
+\hat{y}_t = a * y_t + (1 - \alpha) * \hat{y}_{t-1} 
+\end{equation}
+
+Double exponential smoothing (DES) (Eq. \ref{eq:des}) also includes an ES to the trend; it assumes that the future direction of the time series changes depends on the previous weighted changes. It contains two components: intercept (level) $l$ and slope (trend) $b$. In eq \ref{eq:des} the first function refers to the intercept; the second to the trend; while the final prediction is the sum of these two values. With DES, parameter $\alpha$ is smoothing the series around the trend, while $\beta$ is smoothing the trend itself. Again, optimized values for $\alpha$ and $\beta$ were automatically set on the training set with \citet{seabold2010statsmodels} for each of the time series. 
+
+\begin{equation}
+\label{eq:des}
+\begin{split}
+	l_x &= \alpha y_x + (1-\alpha)(l_{x-1} + b_{x-1}) \\ 
+	b_x &= \beta(l_{x} - l_{x-1}) + (1-\beta)(b_{x-1}) \\ 
+	\hat{y}_{x+1} &= l_x + b_x \\
+\end{split}
+\end{equation}
+
+Whereas ES-models are describing the trend and seasonality in data, Autoregressive Integrated Moving Average (ARIMA) (Eq. \ref{eq:arima}) models are focussed on autocorrelations in the series \citep{Hyndman2018forecasting}. Since they assume a series is stationary, i.e., the properties do not depend on the time at which the series is observed \citep{Hyndman2018forecasting}, ARIMA was only applied on stationary series. In eq. \ref{eq:arima} $y_t'$ refers to the differenced series, while the predictors on the right hand side include both lagged values of $y_t$ and lagged errors \citep{Hyndman2018forecasting}. The model requires three parameters: $p$, the order of the autoregressive part; $q$, order of the moving average part; and $d$ the degree of first differencing involved. Selecting appropriate values for $p, q$ and $d$ is difficult and laborious, especially when many time series are involved. Therefore the model \citep{seabold2010statsmodels} was run for a set including 36 combinations of $p, q$ and $d$, finding the optimal model by Akaike Information Criterion (AIC). 
+
+\begin{equation}
+\label{eq:arima}
+y_t' = c + \phi_1y_{t-1}' + \dots + \phi_py_{t-p}' + \theta_{1} \epsilon_{t-q} + \epsilon_t
+\end{equation}
+
+
+\subsection{Neural network approach}
+
+In this study we used a seq2seq-type model to generate a multi-time step forecast. Following  a formal definition, the learner receives a multi-dimensional time series $\bf{W} \in W^{m x T}$, which is $m$ series of same length $T$. The input $\bf{W}$ is partitioned into a features (past vectors) $\bf{X}$ and targets (future vectors) $\bf{Y}$, where the latter are used for network validation. The learner is tasked to map past vectors of length $T-l$ to corresponding future vectors $l$, while minimizing the loss function (Eq. \ref{eq:mseloss}) is its objective. In accordance with the train/test-split ratio's of the traditional approaches, the past vectors ($\bf{X}$) and future vectors ($\bf{Y}$) are respectively 24 and 9 years long, i.e., the model is trained to forecast the final 9 years when provided with the first 24 years of observations. 
+
+Priorly to training the model the data was split into train, validation and test partitions. First the data was split into train and test partitions with respectively 0.8 split ratio. Then the train partition was scaled into range $x_{scaled} \in \{-1,\dots, 1\}$ using sklearn's \textit{MinMaxScaling} \citep{scikit-learn}. The scaler was only fit on the train partition to avoid information leaking from the test-set into training-set. Nevertheless the test set was also scaled; being it with the scaler which was fit on the training partition. Now the training partition was split again with 0.8 split ratio into a training and development set, which could then be used to find the optimal values of the hyperparameters. 
+
+Data was migrated to \texttt{PyTorch} \citep{paszke2017automatic} tensor's to allow Cuda-powered GPU computation, including automatic differentiation. For convenience data was hold in PT-dataloader objects with shape $batch\_size, seq\_length, features)$, i.e., $(50, 24, 1)$ for a feature batch and $(50, 9, 1)$ for a target batch. Thus we obtained one dataloader object consisting of a training, validation and test set; which all contain numerous batches of scaled time-series, where each series is divided into a past and future vector of respectively 24 and 9 years.   
+
+The principal architecture of the model is a simple fully connected LSTM-based NN. The network consists of a LSTM-cell, with the length of the past vector (24) as input size and hidden size (64) as output size. Next the values are passed through a linear sequential layer, with hidden size (64) as input size and the future vector (9) as output. 
+
+The model's weights are initialized by setting them to 0. The learning rate was set to 0.01. The model was optimized using \texttt{PyTorch} Adam optimizer \citep{paszke2017automatic} with MSE as loss criterion (Eq. \ref{eq:mseloss}) calculated per batch $n$. The model was trained in batches of 50 time-series and run for 10 epochs.  
+
+\begin{equation}
+\label{eq:mseloss}
+	l(x, y) = L \{l_1, \dots, l_n\}^T, l_n = (x_n - y_n)^2
+\end{equation}  
+
+ 
+\subsection{Quality metrics}
+
+The quality of the forecasts was measured by various commonly used performance metrics. In this study we included the mean absolute error (MAE) (Eq. \ref{eq:mae}), mean squared error (MSE) (Eq. \ref{eq:mse}) and mean absolute percentage error (MAPE) (Eq. \ref{eq:mape}). MAE and MSE are useful for comparing forecasting methods on the same set of data, but should not be used across data sets that are on different scales since their scale depends on the scale of the data \citep{chen2017new}. Therefore RMSE, which is the square root of MSE, is often preferred since it is on the same scale as the data. Also with MAPE forecasting performance is measured independently of scale. However, this measure cannot deal with values close to or equal to zero, while it also has a bias favouring estimates that are below the actual values \citep{chen2017new}. In equations \ref{eq:mae}, \ref{eq:mse}, \ref{eq:rmse} and \ref{eq:mape}, $y_i$ refers to the true value, whereas $\hat{y}_i$ denotes the predicted value.    
+
+
+
+\begin{equation}
+\label{eq:mae}
+	MAE = \frac{1}{N} \sum_{t=1}^{N} |y_i-\hat{y}_i|
+\end{equation}
+
+\begin{equation}
+\label{eq:mse}
+	MSE = \frac{1}{N} \sum_{t=1}^{N} (y_i-\hat{y}_i)^2
+\end{equation}
+
+\begin{equation}
+\label{eq:rmse}
+	 RMSE = \sqrt{\frac{1}{N} \sum_{t=1}^{N} (y_i-\hat{y}_i)^2}
+\end{equation}
+
+\begin{equation} 
+\label{eq:mape}
+	MAPE = \frac{100}{N} \sum_{t=1}^{N} \frac{|y_i-\hat{y}_i|}{y_i}
+\end{equation}
+
+
+
+
+%\paragraph{Point versus probabilistic}
+%
+%\paragraph{One-step versus multi-step forecasts}
+%
+%\paragraph{Sequence-to-sequence models}
+%
+%\begin{enumerate}
+%	\item N-BEATS 
+%	\item Spatio temporal Diffusion Convolutional RNN \cite{li2017diffusion}
+%\end{enumerate}
+%
+%\paragraph{Relative shoreline positions?}
+%
+%\paragraph{Unevenly spaced time series} 
+%
+%\paragraph{Hyierarchical time series} The data involved in this study can be understood as hierarchically structured \cite{pmlr-v89-mariet19a}, i.e., frequently, shoreline-position observations are made at different levels: single shoreline-position, regional, country or even larger.
+%
+%\paragraph{Spatio-temporal processes} The type of task involved in this study is spatio-temporal forecasting; historical observations are available at different locations \cite{pmlr-v89-mariet19a}. In these types of time series it is natural to expect correlations between time-series to decay as the geopgraphical distances between them increases \cite{pmlr-v89-mariet19a}.    
+
+
+
+
+
+
+%\begin{enumerate}
+%	\item Graphing the data
+%	\item Consistent patterns? Trend? Seasonality? Cycles? --- Build on MSc-thesis %Wang (2018)
+%	\item How to deal with outliers? (thresholding?)
+%	\item Filling NaNs? If so, how? 
+%	\item Filtering noisy transects (auto-correlation?)
+%\end{enumerate}
+
+\section{Results}
+
+Table \ref{tab:metrics} presents quality metrics of the forecasting algorithms evaluated in this study. The results show that ARIMA outperforms all other algorithms for all quality metrics. However, it is important to note that the ARIMA algorithm was only evaluated on a subsample ($N=300$) of the transects due high computational processing demands. All other algorithms were evaluated on the complete sample ($N=50666$). Here, the LSTM algorithm outperforms LR, ES and DES by most of the quality metrics. Only ES performs better when measured by MAE.    
+
+\begin{table}[h]
+	\centering
+	\caption{Performance metrics of the forecasting algorithms. $^*$Note that the ARIMA algorithm was only applied on a subsample ($N=300$) since processing was computationally demanding. }
+	\label{tab:metrics}
+	\begin{tabular}{llllll}
+		\toprule
+		                & mse    & mae  & mape & rmse & \\ 
+		\midrule
+		Linear regr.          & 4040.4 & 22.5 & 8.9  & 25.8 & \\
+		Exp. Smoothing        & 2687.4 & 18.9 & 7.4  & 22.2 & \\
+		Double exp. Smoothing & 6016.5 & 31.6 & 12.7 & 35.2 & \\
+		ARIMA$^*$                 & 506.2  & 11.2 & 2.42 & -    & \\
+		LSTM                  & 2641   & 24.1 & 5.9  & 27.4 & \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+%\begin{table}[]
+%	\centering
+%	\caption{Performance of forecasting algorithms evaluated by several quality metrics. Please note that ARIMA was only evaluated on a subsample of 100 due to computational limitations.}
+%	\label{tab:metrics}
+%	\begin{tabular}{llll}
+%		& mae  & mse    & mape \\
+%		Linear regr.           & 22.5 & 4040.4 & 8.9  \\
+%		Exp. smoothing         & 18.9 & 2687.4 & 7.4  \\
+%		Double. exp. smoothing & 31.6 & 6016.5 & 12.7 \\
+%		ARIMA$^*$				   & 11.2 & 506.1  & 2.42 \\
+%		LSTM                   & 20.0 & 2392.5 & 5.3 
+%	\end{tabular}
+%\end{table}
+
+
+%Transect \texttt{BOX\_187\_090\_56} (4.5577$^\circ$, 52.4512$^\circ$) is located south of the IJmuiden jetty in The Netherlands. The jetty blocks longshore transport, which is predominantly in northern direction in this area. Therefore higher accretion rates are observed on the southern side, while there is some minor accretion on the northern side, which is related to tidally-forced southward sediment transport.
+
+Figure \ref{fig:lr-example} shows an example of a LR forecast for one of the transects included in the evaluation. Here, the future shoreline evolution of transect \texttt{BOX\_187\_090\_50} (4.5577$^\circ$, 52.4512$^\circ$), located south of the IJmuiden jetty is predicted. The jetty blocks longshore sediment transport, which is predominantly in northern direction in the Netherlands. Therefore higher accretion rates are observed on the southern side, while there is some minor accretion on the northern side, which is related to tidally-forced southward sediment transport. The LR forecast is evaluated on the last 9 years of the 33 years SDS position with MAPE = $0.68\%$.  
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/lr-example.pdf}
+	\caption{LR for transect \texttt{BOX\_187\_090\_50} (4.5577$^\circ$, 52.4512$^\circ$), located south of the IJmuiden-jetty in The Netherlands. SDS observations are indicated with the blue dotted line; the dashed orange line indicates the algorithm fit; the continuous orange line represents future predictions. The dashed red line indicates the forecasting boundary, while the observations which were used for evaluation by the quality metrics is indicated in light blue.}
+	\Description{Forecast example}
+	\label{fig:lr-example}
+\end{figure}
+
+Figure \ref{fig:es-example} represents an example of shoreline forecasting using ES techniques with ($\alpha=0.81$). The transect is located on the Pacific Ocean, west of Aberdeen in the USA. The SDS observations show how the Damon Point sand pit dynamically behaves over time, especially during 2005 when it suddenly migrates landward. Here it is important to note that fitting this forecast included this sudden landward migration of the sandy pit. Furthermore the flat nine-year forecast has a MAPE of $48\%$.  
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/es-example.pdf}
+	\caption{ES ($\alpha=0.81$) forecasting for transect \texttt{BOX\_158\_135\_31} (-124.1166$^\circ$, 46.9399$^\circ$), which is located in a tidal-ebb delta on the north-west coast of the USA. The figure shows SDS observations, algorithm-fit and algorithm-predictions where the dashed red line indicates the forecasting boundary and the light-blue area represents the observations which were used for performance evaluation.}
+	\label{fig:es-example}
+\end{figure}
+
+Figure \ref{fig:arima-example} shows transect \texttt{BOX\_149\_041\_61} (109.6670$^\circ$, 20.9040$^\circ$), which is located on a sandy stretch of coast in south-western China on the Beibu gulf south of Danchang harbour. The SDS positions show describe a relatively steady shoreline position characterized by high inter-annual variability. Here an ARIMA algorithm with order $(p,q,d) = (1, 0, 0)$ was used, effectively generating a multi-timestep forecast by recursively feeding predictions into the model. The model performance has a MAPE = $2.2\%$. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/arima-example.pdf}
+	\caption{ARIMA ($p=1; q=0; d=0$) forecasting for transect \texttt{BOX\_149\_041\_61} (109.6670$^\circ$, 20.9040$^\circ$), on a stretch of sandy coast in south-western China. The figure shows SDS observations and the ARIMA predictions, where the dashed red line indicates the forecasting boundary and the light-blue area represents the observations which were used for performance evaluation.}
+	\Description{Forecast example}
+	\label{fig:arima-example}
+\end{figure}
+
+Figure \ref{fig:lstm-example} shows transect \texttt{BOX\_106\_132\_44} (138.4883$^\circ$, -16.7804$^\circ$), which is located on a sandy stretch of coast near a tidal-ebb delta on the northern shore of Australia. The SDS positions describe gradually retreating shoreline with annual inter-variability. The figure shows a LSTM-based seq2seq fit and multi time-step forecast (18-years), which was generated by recursively feeding the 9-year forecast back into the model.  
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/lstm-example.pdf}
+	\caption{LSTM forecasting for transect \texttt{BOX\_106\_132\_44} (138.4883$^\circ$, -16.7804$^\circ$), which is located in in close proximity of a tidal-ebb delta on the north-coast of Australia. The figure shows SDS observations the LSTM- fit and its forecast on a multi-step horizon. The dashed red line indicates the forecasting boundary; the light-blue area demarcates the observations which were used for performance evaluation, while the continuous orange line to the right of this light-blue area represent the multi-step forecast.}
+	\Description{Forecast example}
+	\label{fig:lstm-example}
+\end{figure}
+
+In terms of processing speed the LSTM network took 1 min 23 s as the best of 3 loops to complete the full training loop consisting of 10 epochs on Google Colab's Tesla K80 GPU accelerator. Subsequently, to perform inference on the test set ($N=10135$), i.e., produce forecasts for 10135 time series, the model took on average 1.58 s. For the traditional methods no distinction was made between training and inference phase. Producing LR models for the test set (again $N=10135$) took 14.1 s as the best of 3 loops; ES and DES took 6.72 s and 6.87 s respectively. Producing ARIMA models for a subsample ($N=100$) of the test set, including order optimization took approximately 2 hours.
+
+\section{Discussion}
+
+Overall it appears that depending on the nature of the time-series, i.e., the physical setting in the real world it describes, different forecasting methods are suitable. Sites with a relatively stable shoreline evolution, such as \texttt{BOX\_187\_090\_50} may be successfully modelled and forecasted using a simple LR algorithm. However, many of the time series describe more complex patterns (Fig. \ref{fig:arima-example}, \ref{fig:lstm-example}), including relatively large shocks (Fig. \ref{fig:es-example}). Although these shocks may be of different origin; e.g, human-induced coastal interventions, like the sand-engine or storm-surges, they are all extremely challenging to be modelled using linear techniques. 
+
+(Double) ES methods are able to capture sudden shocks in SDS position (Fig. \ref{fig:es-example}) since the slope of fitted trend line is recursively calculated over time. Smoothing factors $\alpha$ (and $\beta$) describe how much weight is given to respectively past observations and to changes in the trend itself. Although these methods appear to be very powerful in capturing overall trends in the time-series, they either require labour-intensive analysis or become a black-box model: appropriate values for $\alpha$ and $\beta$ are determined at individual level; optionally this can be automated with high-end libraries as \texttt{Statsmodels}, but this comes cost of transparency.  For the example shown in figure \ref{fig:es-example} $\alpha$ was set automatically by optimization to $\alpha = 0.81$. By setting alpha relatively high the algorithm is able to model the sudden shock arbitrarily well. However, although ES and DES appear to show promising results, in terms of quality metrics, for some of the time series, both methods have one fundamental limitation for the forecasting problem considered in this study: they are limited to one-step forecasts; in so far that a multi-step horizon will result in a flat forecast. To the contrary we are here especially interested in generating shoreline evolution forecasts on the multi-year horizon. Therefore these pure smoothing approaches are most likely not the most suitable candidates for the forecasting problem considered in this study. 
+
+% With these smoothing-based approaches $\hat{y}_{t+1}$ is derived from the series $y_t$ by means of approximation functions; therefore the models can only be leveraged to a multi-step time horizon when point-forecasted value $y_t+1$ would recursively be included in $y_t$. However, this naturally leads to a flat forecast on a multi time-step horizon. In this study we are particularly interested in forecasting shoreline positions on a multi-year time horizon; therefore  
+
+On many of the locations shoreline evolution is characterized by dynamic patterns, including inter-annual variability, such as shown in figure \ref{fig:arima-example}. Although the overall trend of these time series can arguably be forecasted on the multi-year horizon using simple LR methods, other approaches might be more suitable; in particular when the forecast should also describe the dynamic patterns of the shoreline position at the place in question. In such circumstances an ARIMA algorithm may be a suitable candidate for the forecasting problem. When a time-series can considered to be stationary and/or does not contain any unit-root, i.e., the mean and variance do not significantly change over time, ARIMA is able to capture the serial dependence of the time series. In our forecasting problem such serial dependence may describe a shoreline which is dominated by inter-annual variability due to, for example, climatological patterns. However, although ARIMA-like approaches may produce spectacular results for certain area's it often requires tuning some specific parameters which can become both time-consuming and computationally expensive. Ideally one should conduct an eyeball analysis by means of ACF-plots, for each of the time-series included in the study, to determine the appropriate parameters (orders) for the autoregressive, moving average and degree of first differencing. However, since we are here forecasting many thousand time-series such analysis will easily become too time-consuming. Therefore the order was in this study automatically determined for each of the time series by optimization algorithms which used AIC as their criterium. Although this proved to be promising in terms of quality metrics, it was also computationally demanding. As a consequence only a subsample of the time series could be forecasting using ARIMA techniques. To overcome such limitations the time series could instead first be classified into $x_i$ categories where the appropriate order is only to be determined for each of the $i$ classes. Yet, ARIMA algorithms will require the time series to be stationary, whereas in this study many of the time-series cannot be considered stationary. Therefore, to adequately use an ARIMA algorithm for forecasting such time series will have to be stabilized and de-trended, which proved to be, in addition to setting the right order, very labour intensive as stabilization and de-trending operations are often unique per time series. Despite time-series requirements and cost of computation, ARIMA algorithms appear to be a very promising method for forecasting future shorelines as univariate time-series, i.e., without considering any additional features. 
+
+With respect to the traditional methodologies, LSTM NN models have a fundamentally different approach to the shoreline modelling problem of this study. Whereas with all of the traditional approaches an individual model is built per time-series, the LSTM model considers each of the time-series included in the training set as an training example and is essentially building one global model. In effect such model is able to capture patterns which might not be discernable at individual level. Another main advantage of the LSTM is that such models are computationally less demanding, especially when considering many thousands of time series. Model inference, i.e, forecasting, is up to several orders magnitude faster with such DL network than with most of the traditional methods, especially when these DL approaches are migrated to GPU's. More importantly, since NN-based approaches have non-linearities intrinsically incorporated into their framework, they are able to recognize patterns and forecast beyond the linear domain (Fig. \ref{fig:lstm-example}). Nevertheless it is important to note that essentially it is impossible to forecast what is changing; when next-year's shoreline is going to be different in every imaginable aspect, e.g., a coastal intervention, also a LSTM will not be possible to produce any kind of prediction. In every reasonable forecast something that is constant is extracted from the process, to be extended into the future. In figure \ref{fig:lstm-example} the LSTM model is able to forecast shoreline evolution which appears to be characterized by cyclical behaviour and a decreasing trend at the same time. In such time-series an ARIMA model will not be able to produce forecasts since the shoreline evolution is non-stationary. Although Holts-Winter models may produce forecasts for such non-stationary time-series, it requires the trend to be constant; only NN-based methods will be able to handle time-series which are additionally characterized by changes in the trend. 
+
+On the one hand, NN based approaches have showed to be the most flexible, versatile and customizable. On the other hand they are the most challenging to design, require the most domain knowledge and may produce results which are difficult to explain. Due to the scope and limited available time for this project only the surface of DL possibilities was skimmed. Most likely different network architecture, for example using stacked-LSTM instead of single cells, could further improve forecasting performance. Additional improvements may also be made by setting the optimal hyper-parameters, e.g., optimizing the learning rate priorly to model training using high-end libraries as \texttt{FastAI}. However, it is important to note that the DL model used in this study is \emph{one} global model, whereas assuming that there exists indeed a global model for shoreline forecasting is at least dubious and most probably inappropriate. Yet such limitations can be overcome by providing the model, apart from the SDS positions with additional features. Most likely performance of DL-based approaches will also be improved by combining the SDS input with other features into so-called embeddings. Instead of providing the model with pure-time series the model will then be fed with embeddings, which now also contain additional information about the transect. Such other features could be related to its spatial location, climatological proxies, change-indices related to e.g., coastal interventions, or maybe even statistics about the time-series in question. Contrary to the DL model developed in this study, such model cannot be considered global, but hybrid. It contains, on top of the global modal, an additional correction unique to the time series in question. 
+
+Forecasting shorelines is subject to several constraints beyond limitations integral to the algorithms used in the predictions. \citeauthor{vousdoukas2020sandy} already state that although the 33-yr time window can be considered long enough to express decadal-scale variability in shoreline position, it may not fully resolve some rare cases of coastline change, e.g., those induced by very extreme events or sudden and drastic human interventions. Furthermore they also noted that the 30-m spatial resolution of the satellite derived shoreline position dataset is not sufficient to capture smaller displacements in lower energetic regions \cite{vousdoukas2020sandy}. Finally, the 33-yr signal is too short to capture SLR since this has been an ongoing process during the last centuries.  
+
+Considering both cost of computation and quality metrics, DL approaches appear to show most promising results for generating large quantities of shoreline forecasts from SDS position data: they benefit from the large quantities of SDS position data available, both in terms of performance metrics and in processing speed; they are able to deal with non-linear autocorrelations present in many of the shoreline evolution models; and, finally they still offer room for exciting improvements, such as incorporating proxy-data. 
+
+The algorithms developed in this study can be used to further improve ambient trends in shoreline dynamics by forecasting beyond the linear domain. When such forecasts are combined with SLR projections they may provide critical insights in shoreline-dynamics at both local and global level. The algorithms developed in this study may be incorporated in a cloud application providing on-demand shoreline-evolution forecasts for sandy beaches across the globe. Ideally such application will be integrated with yet existing shoreline monitoring tools resulting in one powerful tool which not only contains observations, but may also generate several types of forecasts for sites across the globe. Having these forecasts readily available at a global level may prove to be very powerful for coastal managers who face important decisions about these regions. Additionally these forecasts themselves may become a rich data source for other studies.  
+ 
+
+%\subsection{Results versus related studies}
+
+
+%\subsection{Recommendations}
+
+\section{Conclusion}
+
+In this study we evaluated multiple forecasting algorithms for prediction of shoreline evolution on the multi-annual time frame primarily by several quality metrics and secondarily by their cost of computation. We found that depending on the physical and anthropogenic processes that a shoreline at that certain place is subject to, different forecasting algorithms may be suitable for predicting its future evolution. LR methods are sufficient when dealing with areas characterized by stable evolution. For many other areas, where shoreline evolution describes a more complex pattern other approaches are more suitable. ES-like methods are able to generalize complex trends and deal with higher-order relations, but are limited to one-step forecasts. ARIMA models are capable of forecasting cyclical behaviour and show promising results for many sites, yet they are only applicable to a small subset of the shorelines as they are computationally intensive and/or require a large amount of preprocessing. The DL LSTM model developed in this study outperforms LR, ES, and DES in terms of quality metrics and ARIMA in terms of processing speed. We therefore conclude that models developed in this study are able to improve the linear ambient fit on a multi-annual timespan. This may however still be a challenge on a 100-yr timespan. Although the DL model developed in this study assumes a global model for shoreline evolution forecasting, this can relatively easy be overcome by providing additional site-specific data to the model. Therefore we conclude that overall NN-based approaches appear to be the most suitable candidate for forecasting shoreline evolution from SDS position data. These forecasts may be used to deliver on-demand ambient shoreline-dynamics on multi-annual horizon at global level, while providing a rich data source for additional data-driven studies of the coastal environment.  
+
+%The SDS positions which constitute the time series are the only feature provided to the models; results of this study are limited to point forecasts in a univariate context. This study indicates 
+
+\section{Outlook}
+
+For future research it is highly recommended to include additional features into the DL based models. Providing such DL network with embeddings instead of pure SDS data will leverage the arbitrary global model to a more reasonable hybrid model. Presumably the model will benefit from features which are (to some extent) related to their geospatial position. It might be particularly interesting to add satellite-derived change-indices for coastal infrastructure as the model may be able to learn general patterns in shoreline evolution even when human intervention is involved. The model may also be improved by providing time-series-derived statistics to the model. In addition, time-series classification could also be used priorly to forecasting in order to determine which forecasting method should be applied. 
+
+To fully forecast global sedimentation and erosion patterns SLR trends should be incorporated in the prediction. Similarly to \citet{vousdoukas2020sandy} the dataset could be combined or enriched with SLR models. Ideally shoreline evolution forecasts will be presented next to shoreline monitor data, providing on-demand global forecasts by the several algorithms.    
+
+
+
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=\linewidth]{images/project-plan.png}
+%	\caption{Overview of how the project will roughly be planned during the foreseen MSc-thesis period.}
+%	\Description{Timeline for MSc-thesis project.}
+%	\label{fig:project-plan}
+%\end{figure}
+
+%\subsection{Old}
+%Several papers have studied using basic and modified attention mechanisms for time series data. LSTNet is one of the first papers that proposes using an LSTM + attention mechanism for multivariate forecasting time series \cite{Lai2018ModelingLA} .
+%
+%The key-challenge of this MSc-thesis project is to assess which forecasting technique is most suitable for predicting shoreline evolution given the aforementioned dataset. Nowadays there exist a wide range of statistical and learning-based forecasting techniques, e.g. Facebook Prophet. Traditionally simple methods, a combination of three common exponential smoothing methods (Comb) have outperformed more complex ones in time-series forecasting \citep{Clements2001explaining}. However, this all changed during the world's most renowned forecast competition (M-competition) in 2018, when 17 models were able to outperform the Comb benchmark \citep{Makridakis2018m4}. 
+%
+%The most important findings of the M4 Competition was that the combination of methods led to better results. Furthermore it was surprisingly found that a "hybrid" approach, using both statistical and ML features, produced the most accurate forecasts and precise prediction intervals. In line with \citet{Makridakis2018statistical}, it was also found that the six pure ML methods were note able to outperform Comb. 
+%
+%Recently this view was challenged by \citet{Oreshkin2020NBEATSNB}, who asserted that their N-BEATS model provides the long-missing proof of concept for the use of pure machine learning in time series forecasting and encourages to advance in this research area. 
+%
+%The hybrid model (ES-RNN) developed by \citet{Smyl2020hybrid} was combining Exponential Smoothing (ES) with a Recurrent Neural Network (RNN) architecture. The chain-like nature of these RNNs is intimately related to sequences and list; therefore they are the natural architecture of neural network to use for such data. The ES-RNN algorithm developed by \citet{Smyl2020hybrid} is divided into two distinct layers:  a pre-processing layer that uses exponential smoothing and a LSTM layer that updates the per-series parameters of the Holts-Winter model \citep{Redd2019fast}. 
+%
+%%Long Short Term Memory-based sequence-to-sequence models. Long Short Term Memory networks – usually just called “LSTMs” – are a special kind of RNN, capable of learning long-term dependencies.
+%
+%Nowadays neural-network-based time-series forecasting will typically use RNN-based sequence-to-sequence models. However dilated convolutional neural networks (CNN) may be better suited to identifying and forecasting based upon the varying periodicities within the input sequence \citep{Borovykh2017conditional}. The WaveNet architecture, which was used in the aforementioned study, was originally developed by DeepMind \citep{Oord2016wavenet}. Therefore it might also be interesting to compare the performance of such dilated CNN to the RNN sequence-to-sequence approach. However, when predicting stationary and periodic time-series, RNN-like sequence-to-sequence models are generally found to perform well \citep{Marino2016building}. 
+
+
+
+
+%% The acknowledgments section is defined using the "acks" environment
+%% (and NOT an unnumbered section). This ensures the proper
+%% identification of the section in the article metadata, and the
+%% consistent spelling of the heading.
+%\begin{acks}
+% To Robert, for the bagels and explaining CMYK and color spaces.
+%\end{acks}
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{ds-thesis}
+
+%%
+%% If your work has an appendix, this is the place to put it.
+
+\appendix
+
+%\section{Research methods}
+%\label{app:research-methods}
+%
+%\begin{table*}[ht]
+%	\centering
+%	\caption{Data selection operations}
+%	\label{tab:data-selection}
+%	\begin{tabular}{lllll}
+%		\toprule
+%		\textbf{Selection}           & \textbf{Transects (n)} & \textbf{Nan's (n)} & \textbf{Nan's (\%)} & \textbf{Time (yrs)} \\
+%		\midrule
+%		Raw data                     & 1780724              & 11841277           & 25.2                & 26.4             \\
+%		Sandy transects              & 666555               & 4305559            & 24.3                & 26.5             \\
+%		Drop low sed. composition    & 655167               & 4085411            & 23.3                & 26.8             \\
+%		Drop low shlines             & 638368               & 3577115            & 20.5                & 27.4             \\
+%		Error in changerate              & 637611               & 3560182            & 20.4                & 27.4             \\
+%		Error in timespan                & 635648               & 3513763            & 20.1                & 27.5             \\
+%		Sample                       & 133684               & 1018698            & $\sim$20.1          & $\sim$27.5       \\
+%		Drop outliers                & 133684               & 1018698            & 30.0                & 25.4             \\
+%		Drop NaN's \textgreater 15\% & 50666                & 103754             & 6.6                 & 31.0            \\
+%		\bottomrule
+%	\end{tabular}
+%\end{table*}
+
+
+
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.
