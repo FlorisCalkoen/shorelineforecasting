@@ -1,1 +1,1 @@
-python shoreforecast/runner.py
+python shorelineforecasting/runner.py

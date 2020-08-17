@@ -1,2 +1,6 @@
 /.idea
-/.
+/report
+.DS_Store
+.idea/
+
+data/
