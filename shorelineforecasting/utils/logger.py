@@ -65,5 +65,7 @@ class DataFrameLogger(object):
         self.res = pd.concat([self.res, temp])
         self.idx += 1
 
+# https://stackoverflow.com/questions/19765139/what-is-the-proper-way-to-do-logging-in-csv-file
+
 if __name__ == "__main__":
     print('yay')
