@@ -1,4 +1,4 @@
-from preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, unnesting, partial2date, add_geometry, drop_empty_geometries
+from shorelineforecasting.preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, unnesting, partial2date, add_geometry, drop_empty_geometries
 import pandas as pd
 
 
