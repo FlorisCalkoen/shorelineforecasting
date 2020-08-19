@@ -1,7 +1,7 @@
-from preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, drop_non_tokenizable, unnesting, partials2dates, add_geometry, drop_empty_geometries, split_metadata_tsdf
+from preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, drop_non_tokenizable, unnesting, partial2date, partials2dates, add_geometry, drop_empty_geometries, split_metadata_tsdf, format_tsdf
 from utils.configs import get_yaml_configs
-from utils.logger import get_logger
-from processing.filter import get_stats_tsdf
+from utils.logger import get_logger, get_tsdf_stats_metadata
+from processing.filter import get_metadata_filter, filter_tsdf
 import pandas as pd
 
 def clean_data(data):
@@ -32,7 +32,7 @@ def clean_data(data):
     data = drop_non_tokenizable(data)
     metadata, tsdf = split_metadata_tsdf(data)
     tsdf = unnesting(tsdf, explode=['dt', 'dist'])
-    tsdf['dt'] = partials2dates(tsdf['dt'])
+    tsdf = format_tsdf(tsdf)
     metadata = add_geometry(metadata)
     metadata = drop_empty_geometries(metadata)
     return tsdf, metadata
@@ -43,13 +43,12 @@ if __name__ == "__main__":
     # read configurations and initialize logger
     configs = get_yaml_configs()
     logger = get_logger(configs)
-
+    logger.critical(f"Configs: {configs.items()}")
 
     # Start with csv (sample) data. Optionally start with readily available data.
     # get_sample() # get (fresh) sample data
     data = pd.read_csv("./data/input/sds_sample.csv")
     tsdf, metadata = clean_data(data)
-
 
     # # Optionally just start with reading in these files.
     # metadata = pd.read_pickle("./data/input/sds_compressed_sample.pkl")
@@ -61,31 +60,14 @@ if __name__ == "__main__":
     # Read in outliers data.
     outliers = pd.read_pickle("./data/input/df_outliers_sample.pkl")
 
+    metadata_filter = get_metadata_filter(metadata, tsdf, configs)
+    print(metadata_filter)
+    filtered_tsdf = filter_tsdf(tsdf, configs, outliers, metadata_filter)
+    print(filtered_tsdf)
 
-    # # # basic pre-processing
-    # # metadata = drop_empty_geometries(metadata)
-    #
-    #
-    # # get_sample()
-    # #
-    # # data = pd.read_csv("./data/input/sds_sample.csv")
-    # # print(data)
-    # # example = optimize(data, ['dt', 'dt2', 'dist', 'dist2', 'outliers_1', 'outliers_2'])
-    # # example = create_tokenized_tsdf(example)
-    # # print(f"Transects original df: {len(example['transect_id'].unique())}")
-    # # example = example[(example['dt'] != 'NotConverted') & (example['dist'] != 'NotConverted')]
-    # # print(f"Transects with observations: {len(example['transect_id'].unique())}")
-    # # example = example.loc[example['flag_sandy'] == True]  # keep only sandy transects
-    # # print(f"Transects flag sandy df: {len(example['transect_id'].unique())}")
-    # # example = example.loc[example['changerate_unc'] < 0.5]  # keep transects with relatively constant trends
-    # # print(f"Transects changerate_unc < 0.5 df : {len(example['transect_id'].unique())}")
-    # # print(example['dt'].iloc[0][0])
-    # # example = unnesting(example, ['dt', 'dist'])
-    # # print(example.shape)
-    # # example['ts'] = example['dt'].progress_apply(partial2date)
-    # # example = add_geometry(example)
-    # #
-    # # example = example.set_index(['transect_id', 'ts'])
-    # # print(example.head())
-    #
+
+
+
+
+
 

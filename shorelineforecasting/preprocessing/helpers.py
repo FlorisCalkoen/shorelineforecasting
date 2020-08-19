@@ -107,6 +107,11 @@ def unnesting(df, explode):
 
     return df1.join(df.drop(explode, 1), how='left')
 
+def format_tsdf(tsdf: pd.DataFrame) -> pd.DataFrame:
+    """Input time-series df and return time-series dataframe with appropriate indices and dates."""
+    tsdf['ts'] = partials2dates(tsdf['dt'])
+    # tsdf = tsdf.set_index(['transect_id', 'ts'])
+    return tsdf
 
 def partial2date(number, reference_year=1984):
     """Input partial date, reference year and return datetime object."""
@@ -118,7 +123,8 @@ def partial2date(number, reference_year=1984):
     return date
 
 def partials2dates(partial_dates: list):
-  return [partial2date(idx) for idx in partial_dates]
+    """Input list of partial-dates and return list of datetime dates."""
+    return [partial2date(idx) for idx in partial_dates]
 
 
 def split_metadata_tsdf(df: pd.DataFrame) -> tuple:

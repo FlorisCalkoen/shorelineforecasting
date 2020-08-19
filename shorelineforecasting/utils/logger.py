@@ -1,77 +1,11 @@
 import numpy as np
 import pandas as pd
-from datetime import timedelta, datetime
+from datetime import datetime
 import logging
 import csv
 import io
-import datetime
 
-def partial2date(number, reference_year=1984):
-  year = reference_year + int(number)
-  d = timedelta(days=(reference_year + number - year)*365)
-  day_one = datetime(year, 1, 1)
-  date = d + day_one
-  return date
-
-def date2partial(date, reference_year=1984):
-    year = date.year
-    tt = date.timetuple()
-    d = tt.tm_yday / 365
-    return (year - reference_year) + d
-
-class DataFrameLogger(object):
-    def __init__(self):
-
-        self.res = pd.DataFrame(columns=['idx', 'operation', 'transects', 'nans', 'p_nans'])
-        self.res = self.res.set_index('idx')
-        self.idx = 0
-
-    def get_stats_metadata(self, df, label):
-        temp = pd.DataFrame()
-        temp['operation'] = [label]
-        temp['transects'] = [len(df['transect_id'].unique())]
-        temp['timespan'] = [df['timespan'].mean()]
-        temp['nans'] = [np.nan]
-        temp['p_nans'] = [np.nan]
-        temp['idx'] = [self.idx]
-        temp = temp.set_index('idx')
-
-        self.res = pd.concat([self.res, temp])
-        self.idx += 1
-
-    def get_all_stats_metadata(self, metadata, data, label):
-        # prepare data input according to metadata filter
-        transects = metadata['transect_id'].unique()
-        data = data.loc[data['transect_id'].isin(transects)]
-        data = data.pivot(index='dt', columns='transect_id', values='dist')
-        data['ts'] = data.index.map(partial2date)
-        data = data.set_index(['ts', data.index])
-
-        # get stats
-        self.get_stats_tsdf(data, label)
-
-    def get_stats_tsdf(self, df, label):
-        try:
-            df = df.groupby(df.index.get_level_values('ts').year).mean()
-            print('hurray')
-            print(df.head())
-        except:
-            pass
-        nans = nan = df.isna().values.sum()
-        total = df.count().values.sum()
-        temp = pd.DataFrame()
-        temp['operation'] = [label]
-        temp['transects'] = [len(df.columns)]
-        temp['timespan'] = [np.mean(df.apply(lambda x: x.count()))]
-        temp['nans'] = [nans]
-        temp['p_nans'] = [nans / total]
-        temp['idx'] = [self.idx]
-        temp = temp.set_index('idx')
-
-        self.res = pd.concat([self.res, temp])
-        self.idx += 1
-
-# https://stackoverflow.com/questions/19765139/what-is-the-proper-way-to-do-logging-in-csv-file
+from preprocessing.helpers import partial2date
 
 
 class CsvFormatter(logging.Formatter):
@@ -102,7 +36,7 @@ def get_logger(configs):
         Logger object writing output to file.
     """
     level = getattr(logging, configs['run']['logLevel'].upper(), 30)
-    timestr = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    timestr = datetime.now().strftime("%Y%m%d%H%M%S")
     fpath = f"./data/output/log_{timestr}.csv"
     logging.basicConfig(filename=fpath, level=level, )
     logger = logging.getLogger(__name__)
@@ -111,5 +45,27 @@ def get_logger(configs):
     return logger
 
 
-if __name__ == "__main__":
-    pass
+def get_stats_tsdf(tsdf):
+    """Input time-series DataFrame and return several statistics time-series DataFrame."""
+    tsdf = tsdf.groupby(tsdf.index.get_level_values('ts').year).mean()
+    nans = tsdf.isna().values.sum()
+    n_obs = tsdf.count().values.sum()
+    n_transects = len(tsdf.columns)
+    timespan = np.mean(tsdf.apply(lambda x: x.count()))
+    p_nans = nans/n_obs
+    return f"{nans}, {n_obs}, {n_transects}, {timespan}, {p_nans}"
+
+
+def get_tsdf_stats_metadata(metadata, tsdf):
+    """ Input metadata DataFrame and return time-series statistics of transects included in metadata."""
+    transects = metadata['transect_id'].unique()
+    tsdf = tsdf.loc[tsdf['transect_id'].isin(transects)]
+    tsdf = tsdf.pivot(index='dt', columns='transect_id', values='dist')
+    tsdf['ts'] = tsdf.index.map(partial2date)
+    tsdf = tsdf.set_index(['ts', tsdf.index])
+    return get_stats_tsdf(tsdf)
+
+
+
+
+

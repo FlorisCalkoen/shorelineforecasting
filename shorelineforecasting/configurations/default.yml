@@ -1,17 +1,19 @@
 run:
-  sample: 1000
+  sample:
   show_plot: true
   save_results: true
   logLevel: "debug"
 
 selection:
-  drop_outliers_1: true
-  drop_outliers_2: true
-  nans_per_year_lt: 1
-  nans_per_transect: .25
-  flag_sandy: True,
-  changerate_unc: None,
-  no_sedcomp: True,
-  low_detect_shlines: True,
-  err_changerate: True,
-  err_timespan: True
+  metadata:
+    flag_sandy: true
+    changerate_unc:
+    no_sedcomp: true
+    low_detect_shlines: true
+    err_changerate: true
+    err_timespan: true
+  stats:
+    drop_outliers_1: true
+    drop_outliers_2: true
+    nans_per_year_lt: 1
+    nans_per_transect: .25
