@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 from datetime import timedelta, datetime
+import logging
+import csv
+import io
+import datetime
 
 def partial2date(number, reference_year=1984):
   year = reference_year + int(number)
@@ -49,6 +53,8 @@ class DataFrameLogger(object):
     def get_stats_tsdf(self, df, label):
         try:
             df = df.groupby(df.index.get_level_values('ts').year).mean()
+            print('hurray')
+            print(df.head())
         except:
             pass
         nans = nan = df.isna().values.sum()
@@ -67,5 +73,43 @@ class DataFrameLogger(object):
 
 # https://stackoverflow.com/questions/19765139/what-is-the-proper-way-to-do-logging-in-csv-file
 
+
+class CsvFormatter(logging.Formatter):
+    """Input logging.Formatter object and return a CSV-formatted logging object."""
+    def __init__(self):
+        super().__init__()
+        self.output = io.StringIO()
+        self.writer = csv.writer(self.output, quoting=csv.QUOTE_ALL)
+
+    def format(self, record):
+        self.writer.writerow([record.levelname, record.msg])
+        data = self.output.getvalue()
+        self.output.truncate(0)
+        self.output.seek(0)
+        return data.strip()
+
+
+def get_logger(configs):
+    """
+    Input configuration object, return logger object and write to output file.
+
+    When no valid logging level is provided, level is set numerically set to WARNING.
+    Output is formatted using CsvFormatter and written to text file in csv-format.
+
+    :param configs:
+        Configuration object which is created by parsing the configuration file.
+    :return:class 'logging.Logger
+        Logger object writing output to file.
+    """
+    level = getattr(logging, configs['run']['logLevel'].upper(), 30)
+    timestr = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    fpath = f"./data/output/log_{timestr}.csv"
+    logging.basicConfig(filename=fpath, level=level, )
+    logger = logging.getLogger(__name__)
+    logging.root.handlers[0].setFormatter(CsvFormatter())
+
+    return logger
+
+
 if __name__ == "__main__":
-    print('yay')
+    pass

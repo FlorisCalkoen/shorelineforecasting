@@ -23,3 +23,4 @@ if __name__ == "__main__":
 
     yummy = get_yaml_configs()
     print(yummy.items())
+    print(type(yummy['run']['logger']))

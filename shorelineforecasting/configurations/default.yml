@@ -2,7 +2,7 @@ run:
   sample: 1000
   show_plot: true
   save_results: true
-  logger: false
+  logLevel: "debug"
 
 selection:
   drop_outliers_1: true

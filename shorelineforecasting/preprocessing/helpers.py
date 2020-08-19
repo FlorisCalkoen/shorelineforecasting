@@ -6,6 +6,11 @@ import numpy as np
 from datetime import timedelta, datetime
 from shapely.geometry import Point
 import geopandas as gpd
+import logging
+
+
+logger = logging.getLogger(__name__)
+
 
 def get_sample(filepath: str = "./data/input/sds.csv", n: int = 1000):
     """
@@ -62,6 +67,7 @@ def optimize_objects(df: pd.DataFrame, ignore_features: List[str]) -> pd.DataFra
 
 def optimize(df: pd.DataFrame, ignore_features: List[str] = []):
     """Input dataframe and return fully optimized dataframe"""
+    logger.debug('This should be captured.')
     return optimize_floats(optimize_ints(optimize_objects(df, ignore_features)))
 
 
@@ -75,15 +81,20 @@ def str2flt(string_of_list):
     try:
         return [float(x) for x in string_of_list[1:-1].split(', ')]
     except ValueError as e:
-        print(f"ValueError: {e}")
+        print(f"ValueError: {e} most likely the string is empty.")
         return "NotConverted"
 
 
-def create_tokenized_tsdf(df):
+def create_tokenized_tsdf(df: pd.DataFrame) -> pd.DataFrame:
     """Input df with dates, sds in a string and return as tokenized floats."""
     tqdm.pandas()
     df['dt'] = df['dt'].progress_apply(str2flt)
     df['dist'] = df['dist'].progress_apply(str2flt)
+    return df
+
+def drop_non_tokenizable(df: pd.DataFrame) -> pd.DataFrame:
+    """Input DataFrame and return DataFrame without non-tokenizable lists."""
+    df = df[(df['dt'] != 'NotConverted') & (df['dist'] != 'NotConverted')]
     return df
 
 
@@ -105,6 +116,17 @@ def partial2date(number, reference_year=1984):
     day_one = datetime(year, 1, 1)
     date = d + day_one
     return date
+
+def partials2dates(partial_dates: list):
+  return [partial2date(idx) for idx in partial_dates]
+
+
+def split_metadata_tsdf(df: pd.DataFrame) -> tuple:
+    """Input DataFrame and return time-series DataFrame and metadata DataFrame."""
+    tsdf = df[['transect_id', 'dt', 'dist']]
+    metadata = df.drop(['dt', 'dist'], axis=1)
+    return metadata, tsdf
+
 
 def merge2point(lon, lat):
     """Input longitude, latitude and return GeoPandas Point."""
