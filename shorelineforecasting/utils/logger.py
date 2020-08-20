@@ -37,7 +37,7 @@ def get_logger(configs):
     """
     level = getattr(logging, configs['run']['logLevel'].upper(), 30)
     timestr = datetime.now().strftime("%Y%m%d%H%M%S")
-    fpath = f"./data/output/log_{timestr}.csv"
+    fpath = f"./data/output/logs/log_{timestr}.csv"
     logging.basicConfig(filename=fpath, level=level, )
     logger = logging.getLogger(__name__)
     logging.root.handlers[0].setFormatter(CsvFormatter())
@@ -47,7 +47,10 @@ def get_logger(configs):
 
 def get_stats_tsdf(tsdf):
     """Input time-series DataFrame and return several statistics time-series DataFrame."""
-    tsdf = tsdf.groupby(tsdf.index.get_level_values('ts').year).mean()
+    try:
+        tsdf = tsdf.groupby(tsdf.index.get_level_values('ts').year).mean()
+    except:
+        pass
     nans = tsdf.isna().values.sum()
     n_obs = tsdf.count().values.sum()
     n_transects = len(tsdf.columns)

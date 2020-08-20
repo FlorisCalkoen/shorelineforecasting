@@ -7,7 +7,7 @@ from datetime import timedelta, datetime
 from shapely.geometry import Point
 import geopandas as gpd
 import logging
-
+import pickle
 
 logger = logging.getLogger(__name__)
 
@@ -167,5 +167,46 @@ def drop_by_index(s: pd.Series, outlier_dict: dict) -> pd.Series:
     return s[mask]
 
 
-if __name__ == "__main__":
-    pass
+def pivot_tsdf(df):
+    """Input time-series DataFrame and return pivoted time-series DataFrame."""
+    df = df.reset_index() # reset index
+    df = df.pivot(index='dt', columns='transect_id', values='dist')   # pivot
+    df = df.reset_index()
+    df['ts'] = df['dt'].progress_apply(partial2date)
+    df = df.set_index(['ts', 'dt'])
+    return df
+
+
+def interpolate_nans(tsdf: pd.DataFrame) -> pd.DataFrame:
+    """Input time-series df with nans and return df with linearly interpolated nans."""
+    tsdf = tsdf.groupby(tsdf.index.get_level_values('ts').year).mean()
+    tsdf = tsdf.interpolate(method='linear', limit_direction='both', axis=0)
+    return tsdf
+
+
+def save_preprocessed_data(tsdf, metadata, configs):
+    """Input tsdf, metadata, configs and save those bundled in a dictionary in pkl-format."""
+    filename = configs['run']['filename']
+    timestamp = int(datetime.timestamp(datetime.now()))
+    filepath = f"./data/output/preprocessed/{filename}_{timestamp}.pkl"
+    print(f"Saving results as: {filepath}")
+
+    # Bundle configs, metadata and tsdf in one dictionary
+    res = {}
+    res['configs'] = configs
+    res['metadata'] = metadata.loc[metadata['transect_id'].isin(tsdf.columns)]
+    res['tsdf'] = tsdf
+
+    # save as pickle
+    with open(filepath, 'wb') as handle:
+        pickle.dump(res, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def load_preprocessed_data(filename):
+    """Input filepath of pkl file and return dictionary with preprocessed data."""
+    filepath = f"./data/output/preprocessed/{filename}"
+    with open(filepath, 'rb') as handle:
+        res = pickle.load(handle)
+    configs = res['configs']
+    tsdf = res['tsdf']
+    metadata = res['metadata']
+    return configs, tsdf, metadata

@@ -1,10 +1,10 @@
-from preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, drop_non_tokenizable, unnesting, partial2date, partials2dates, add_geometry, drop_empty_geometries, split_metadata_tsdf, format_tsdf
+from preprocessing.helpers import get_sample, optimize, create_tokenized_tsdf, drop_non_tokenizable, unnesting, partial2date, partials2dates, add_geometry, drop_empty_geometries, split_metadata_tsdf, format_tsdf, pivot_tsdf, interpolate_nans, save_preprocessed_data, load_preprocessed_data
 from utils.configs import get_yaml_configs
 from utils.logger import get_logger, get_tsdf_stats_metadata
-from processing.filter import get_metadata_filter, filter_tsdf
+from processing.filter import get_metadata_filter, filter_tsdf_by_metadata, filter_tsdf_by_nans
 import pandas as pd
 
-def clean_data(data):
+def reshape_data(data):
     """
     Input Pandas DataFrame with satellite-derived shoreline positions in Deltares ShorelineMonitor format
     and return unnested Pandas DataFrame with shoreline positions and Pandas DataFrame with metadata about
@@ -38,6 +38,27 @@ def clean_data(data):
     return tsdf, metadata
 
 
+def filter_data(tsdf, metadata, configs):
+    """
+    Input time-series DataFrame, metadata of the transects included in the time-series and
+    configurations. The time-series data will be filtered according to settings specified
+    in the YAML-configuration file. Metadata is also filtered according to the time-series
+    which are left in the selection. The time-series, metadata and configuration settings
+    are saved as a dictionary in pkl-format in the output directory.
+
+    :param metadata:
+    :param tsdf:
+    :param configs:
+    :return: None
+    """
+    metadata_filter = get_metadata_filter(metadata, tsdf, configs)
+    tsdf = filter_tsdf_by_metadata(tsdf, configs, outliers, metadata_filter)
+    tsdf = pivot_tsdf(tsdf)
+    tsdf, _, _ = filter_tsdf_by_nans(tsdf, configs)
+    tsdf = interpolate_nans(tsdf)
+    save_preprocessed_data(tsdf, metadata, configs)
+
+
 if __name__ == "__main__":
 
     # read configurations and initialize logger
@@ -45,25 +66,24 @@ if __name__ == "__main__":
     logger = get_logger(configs)
     logger.critical(f"Configs: {configs.items()}")
 
-    # Start with csv (sample) data. Optionally start with readily available data.
+    # Start with csv (sample) data. Optionally skip "get_sample()" function and
+    # start with readily available sample data. Also load the outliers dataframe.
     # get_sample() # get (fresh) sample data
     data = pd.read_csv("./data/input/sds_sample.csv")
-    tsdf, metadata = clean_data(data)
-
-    # # Optionally just start with reading in these files.
-    # metadata = pd.read_pickle("./data/input/sds_compressed_sample.pkl")
-    # tsdf = pd.read_pickle("./data/input/tsdf_sample.pkl")
-    # tsdf['dt'] = partials2dates(tsdf['dt'])
-    # metadata = add_geometry(metadata)
-    # metadata = drop_empty_geometries(metadata)
-
-    # Read in outliers data.
     outliers = pd.read_pickle("./data/input/df_outliers_sample.pkl")
 
-    metadata_filter = get_metadata_filter(metadata, tsdf, configs)
-    print(metadata_filter)
-    filtered_tsdf = filter_tsdf(tsdf, configs, outliers, metadata_filter)
-    print(filtered_tsdf)
+    # reshape and re-format data.
+    # tsdf, metadata = reshape_data(data)
+
+    # clean data and save preprocessed data in output directory.
+    # filter_data(tsdf, metadata, configs)
+
+    # load data
+    configs, tsdf, metadata = load_preprocessed_data(filename="sample_1597922102.pkl")
+
+
+
+
 
 
 

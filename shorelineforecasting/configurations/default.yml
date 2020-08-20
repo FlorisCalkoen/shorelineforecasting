@@ -3,6 +3,7 @@ run:
   show_plot: true
   save_results: true
   logLevel: "debug"
+  filename: "sample"
 
 selection:
   metadata:
@@ -16,4 +17,4 @@ selection:
     drop_outliers_1: true
     drop_outliers_2: true
     nans_per_year_lt: 1
-    nans_per_transect: .25
+    nans_per_transect_lt: .25
