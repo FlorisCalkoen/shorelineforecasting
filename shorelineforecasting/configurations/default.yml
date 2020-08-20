@@ -4,6 +4,7 @@ run:
   save_results: true
   logLevel: "debug"
   filename: "sample"
+  seed: 42
 
 selection:
   metadata:
@@ -18,3 +19,19 @@ selection:
     drop_outliers_2: true
     nans_per_year_lt: 1
     nans_per_transect_lt: .25
+
+lstm:
+  split_ratio: .8
+  train_window: 24
+  batch_size: 10
+  epochs: 10
+  learning_rate: 0.01
+  input_size: 1
+  hidden_size: 64
+  horizon: 2
+  evaluation: ['mse', 'mae', 'mape', 'rmse', 'umbrae']
+  transect_id:
+
+
+
+

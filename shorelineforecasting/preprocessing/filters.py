@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.logger import get_tsdf_stats_metadata, get_stats_tsdf
-from visualization.nans import plot_nans_per_year, plot_nans_per_transect
+from visualization.plots import plot_nans_per_year, plot_nans_per_transect
 
 
 logger = logging.getLogger(__name__)
