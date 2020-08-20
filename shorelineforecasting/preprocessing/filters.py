@@ -91,13 +91,6 @@ def filter_tsdf_by_nans(tsdf: pd.DataFrame, configs):
     filtered1 = yearly[yearly.isnull().mean(axis=1) < nans_per_yr_lt]
     filtered2 = filtered1.loc[:, filtered1.isnull().mean() < nans_per_transect_lt]
 
-    # # log stats
-    # labels = [f"Before NaN filter",
-    #           f"Filter 1: NaN's per year > {nans_per_yr_lt * 100} %",
-    #           f"Filter 1: NaN's per year > {nans_per_transect_lt * 100} %"]
-    # for i, j in zip([yearly, filtered1, filtered2], labels):
-    #     logger.debug(f"{j}: {get_stats_tsdf(i)}")
-
     keep_years = filtered1.index
     keep_transects = filtered2.columns
     keep_rows = tsdf.index.get_level_values('ts').year.isin(keep_years)
