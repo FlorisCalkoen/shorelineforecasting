@@ -1,15 +1,16 @@
-import numpy as np
-import pandas as pd
-from datetime import datetime
-import logging
-import csv
 import io
+import csv
+import logging
 
+import numpy as np
+
+from datetime import datetime
 from preprocessing.helpers import partial2date
 
 
 class CsvFormatter(logging.Formatter):
     """Input logging.Formatter object and return a CSV-formatted logging object."""
+
     def __init__(self):
         super().__init__()
         self.output = io.StringIO()
@@ -37,7 +38,7 @@ def get_logger(configs):
     """
     level = getattr(logging, configs['run']['logLevel'].upper(), 30)
     timestr = datetime.now().strftime("%Y%m%d%H%M%S")
-    fpath = f"./data/output/logs/log_{timestr}.csv"
+    fpath = f"output/logs/log_{timestr}.csv"
     logging.basicConfig(filename=fpath, level=level, )
     logger = logging.getLogger(__name__)
     logging.root.handlers[0].setFormatter(CsvFormatter())
@@ -55,7 +56,7 @@ def get_stats_tsdf(tsdf):
     n_obs = tsdf.count().values.sum()
     n_transects = len(tsdf.columns)
     timespan = np.mean(tsdf.apply(lambda x: x.count()))
-    p_nans = nans/n_obs
+    p_nans = nans / n_obs
     return f"{nans}, {n_obs}, {n_transects}, {timespan}, {p_nans}"
 
 
@@ -67,8 +68,3 @@ def get_tsdf_stats_metadata(metadata, tsdf):
     tsdf['ts'] = tsdf.index.map(partial2date)
     tsdf = tsdf.set_index(['ts', tsdf.index])
     return get_stats_tsdf(tsdf)
-
-
-
-
-

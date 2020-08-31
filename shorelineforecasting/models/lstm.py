@@ -1,27 +1,26 @@
-import os
 import torch
-import numpy as np
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.autograd import Variable
+
 
 class Net(nn.Module):
     """
-
+    Simple RNN (LSTM) network.
     """
-    def __init__(self, input_size, hidden_size, output_size, batch_size, train_window):
-        super(Net,self).__init__()
+
+    def __init__(self, input_size, hidden_size, output_size):
+        super(Net, self).__init__()
         self.rnn = nn.LSTM(input_size, hidden_size, batch_first=True)
         self.out = nn.Sequential(nn.Linear(hidden_size, output_size))
 
     def forward(self, x):
         r_out, (h_n, h_c) = self.rnn(x, None)
-        out = self.out(r_out[:,-1,:])
+        out = self.out(r_out[:, -1, :])
         return out
+
 
 def train_model(model, dataloaders, model_configs):
     """
-
+    Training loop for NN network.
     :param model:
     :param dataloaders:
     :param model_configs:
@@ -31,7 +30,6 @@ def train_model(model, dataloaders, model_configs):
     optimizer = torch.optim.Adam(model.parameters(), lr=model_configs['learning_rate'])
     criterion = nn.MSELoss()
     model = model.double()
-
 
     # train
     for epoch in range(model_configs['epochs']):
@@ -56,6 +54,7 @@ def train_model(model, dataloaders, model_configs):
             running_loss_test += loss_test.item()
         print('Epoch {} Train Loss:{}, Val Loss:{}'.format(epoch + 1, running_loss_train, running_loss_test))
     print('Finish training')
+
 
 def inference_model(model, dataloader, model_configs):
     """
@@ -87,5 +86,3 @@ def inference_model(model, dataloader, model_configs):
             # store in dataframe
             result = torch.cat((result, t_x))
         return result
-
-

@@ -1,10 +1,9 @@
 import logging
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from utils.logger import get_tsdf_stats_metadata, get_stats_tsdf
-from visualization.plots import plot_nans_per_year, plot_nans_per_transect
 
+from utils.logger import get_tsdf_stats_metadata
+from visualization.plots import plot_nans_per_year, plot_nans_per_transect
 
 logger = logging.getLogger(__name__)
 
@@ -65,8 +64,8 @@ def filter_tsdf_by_metadata(tsdf, configs, outliers, transect_filter=None):
 
     # # handle outliers
     tsdf = tsdf.reset_index()
-    outliers1 = outliers.set_index('transect_id')['outliers_1_as_int'].to_dict()
-    outliers2 = outliers.set_index('transect_id')['outliers_2_as_int'].to_dict()
+    outliers1 = outliers.set_index('transect_id')['outliers_1'].to_dict()
+    outliers2 = outliers.set_index('transect_id')['outliers_2'].to_dict()
     if configs['selection']['stats']['drop_outliers_1'] is True:
         print('Dropping outliers 1...')
         tsdf = tsdf.groupby('transect_id').progress_apply(lambda x: drop_indices(x, outliers1))
@@ -75,7 +74,6 @@ def filter_tsdf_by_metadata(tsdf, configs, outliers, transect_filter=None):
         print('Dropping outliers 2...')
         tsdf = tsdf.groupby('transect_id').progress_apply(lambda x: drop_indices(x, outliers2))
         tsdf = tsdf.droplevel('transect_id')
-
     return tsdf
 
 
@@ -100,5 +98,3 @@ def filter_tsdf_by_nans(tsdf: pd.DataFrame, configs):
         plot_nans_per_transect(yearly, filtered1, filtered2, nans_per_yr_lt, nans_per_transect_lt)
 
     return tsdf[keep_rows][keep_transects], keep_years, keep_transects
-
-

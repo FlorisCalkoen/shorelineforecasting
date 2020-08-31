@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def plot_nans_per_year(yearly, filtered1, filtered2, nans_per_yr_lt, nans_per_transect_lt):
@@ -76,7 +76,7 @@ def plot_nans_per_transect(yearly, filtered1, filtered2, nans_per_yr_lt, nans_pe
     plt.show()
 
 
-def plot_forecast(test, forecast, model_configs, transect_id=None):
+def plot_forecast(test, forecast, configs, model_configs, transect_id=None):
     """
 
     :param test:
@@ -85,8 +85,11 @@ def plot_forecast(test, forecast, model_configs, transect_id=None):
     :param transect_id:
     :return:
     """
+    if configs['run']['show_plot'] is not True:
+        return
+
     if transect_id is None:
-      transect_id = np.random.choice(forecast.columns)
+        transect_id = np.random.choice(forecast.columns)
 
     ts = test[transect_id]
     fcast = forecast[transect_id]
@@ -96,7 +99,7 @@ def plot_forecast(test, forecast, model_configs, transect_id=None):
     ax.plot(ts.index, ts.values, label=ts.name, marker='o')
     ax.plot(fcast.index, fcast.values, label="LSTM forecast", color='#ff7f0e')
     ax.axvline(x=1984 + model_configs['train_window'], c='r', linestyle='dashed', zorder=0)
-    ax.axvspan(1984+model_configs['train_window'], 1984+len(ts)-1, alpha=0.3)
+    ax.axvspan(1984 + model_configs['train_window'], 1984 + len(ts) - 1, alpha=0.3)
 
     ax.set(xlabel='Time (yrs)', ylabel='Relative shoreline position (m)')
     ax.legend()

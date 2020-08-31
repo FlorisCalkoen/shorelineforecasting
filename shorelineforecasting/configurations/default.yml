@@ -6,6 +6,12 @@ run:
   filename: "sample"
   seed: 42
 
+data:
+  sites_url: "https://s3.eu-central-1.amazonaws.com/floris.calkoen.open.data/sites.csv"
+  time_series_url: "https://s3.eu-central-1.amazonaws.com/floris.calkoen.open.data/time-series.csv"
+  outliers_url: "https://s3.eu-central-1.amazonaws.com/floris.calkoen.open.data/outliers.csv"
+  data_url: "https://s3.eu-central-1.amazonaws.com/floris.calkoen.open.data/data.csv"
+
 selection:
   metadata:
     flag_sandy: true

@@ -1,13 +1,15 @@
 import os
+import pickle
+import logging
+
+import numpy as np
 import pandas as pd
+import geopandas as gpd
+
 from typing import List
 from tqdm.auto import tqdm
-import numpy as np
 from datetime import timedelta, datetime
 from shapely.geometry import Point
-import geopandas as gpd
-import logging
-import pickle
 
 logger = logging.getLogger(__name__)
 
@@ -85,12 +87,21 @@ def str2flt(string_of_list):
         return "NotConverted"
 
 
+def str2int(string_of_list):
+    """Input string of lists with floats and return list of floats."""
+    try:
+        return [int(x) for x in string_of_list[1:-1].split(', ')]
+    except ValueError as e:
+        return list()
+
+
 def create_tokenized_tsdf(df: pd.DataFrame) -> pd.DataFrame:
     """Input df with dates, sds in a string and return as tokenized floats."""
     tqdm.pandas()
     df['dt'] = df['dt'].progress_apply(str2flt)
     df['dist'] = df['dist'].progress_apply(str2flt)
     return df
+
 
 def drop_non_tokenizable(df: pd.DataFrame) -> pd.DataFrame:
     """Input DataFrame and return DataFrame without non-tokenizable lists."""
@@ -107,20 +118,23 @@ def unnesting(df, explode):
 
     return df1.join(df.drop(explode, 1), how='left')
 
+
 def format_tsdf(tsdf: pd.DataFrame) -> pd.DataFrame:
     """Input time-series df and return time-series dataframe with appropriate indices and dates."""
     tsdf['ts'] = partials2dates(tsdf['dt'])
     # tsdf = tsdf.set_index(['transect_id', 'ts'])
     return tsdf
 
+
 def partial2date(number, reference_year=1984):
     """Input partial date, reference year and return datetime object."""
     tqdm.pandas()
     year = reference_year + int(number)
-    d = timedelta(days=(reference_year + number - year)*365)
+    d = timedelta(days=(reference_year + number - year) * 365)
     day_one = datetime(year, 1, 1)
     date = d + day_one
     return date
+
 
 def partials2dates(partial_dates: list):
     """Input list of partial-dates and return list of datetime dates."""
@@ -169,8 +183,8 @@ def drop_by_index(s: pd.Series, outlier_dict: dict) -> pd.Series:
 
 def pivot_tsdf(df):
     """Input time-series DataFrame and return pivoted time-series DataFrame."""
-    df = df.reset_index() # reset index
-    df = df.pivot(index='dt', columns='transect_id', values='dist')   # pivot
+    df = df.reset_index()  # reset index
+    df = df.pivot(index='dt', columns='transect_id', values='dist')  # pivot
     df = df.reset_index()
     df['ts'] = df['dt'].progress_apply(partial2date)
     df = df.set_index(['ts', 'dt'])
@@ -188,7 +202,7 @@ def save_preprocessed_data(tsdf, metadata, configs):
     """Input tsdf, metadata, configs and save those bundled in a dictionary in pkl-format."""
     filename = configs['run']['filename']
     timestamp = int(datetime.timestamp(datetime.now()))
-    filepath = f"./data/output/preprocessed/{filename}_{timestamp}.pkl"
+    filepath = f"output/preprocessed/{filename}_{timestamp}.pkl"
     print(f"Saving results as: {filepath}")
 
     # Bundle configs, metadata and tsdf in one dictionary
@@ -201,9 +215,10 @@ def save_preprocessed_data(tsdf, metadata, configs):
     with open(filepath, 'wb') as handle:
         pickle.dump(res, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+
 def load_preprocessed_data(filename):
     """Input filepath of pkl file and return dictionary with preprocessed data."""
-    filepath = f"./data/output/preprocessed/{filename}"
+    filepath = f"output/preprocessed/{filename}"
     with open(filepath, 'rb') as handle:
         res = pickle.load(handle)
     configs = res['configs']
