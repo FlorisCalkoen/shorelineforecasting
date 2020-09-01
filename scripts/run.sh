@@ -1,1 +1,3 @@
-python shorelineforecasting/runner.py
+#!/bin/sh
+cd shorelineforecasting || exit
+python runner.py
