@@ -1,9 +1,9 @@
 # Shoreline Forecasting Data Analysis
-## Predicting Multi-decadal Shoreline Evolution Using Historical Remote Sensing Data
+## Forecasting Shorline Evolution Using Satellite-Derived Shoreline-Positions
 
 Floris Calkoen, 2020, MSc Thesis Project Information Studies (University of Amsterdam) at Deltares.  
 
-Supervised by Dr. Arjen Luijendijk (Deltares; TU Delft) & Dr. Cristian Rodriguez Rivero (UvA)
+Supervised by Dr. Cristian Rodriguez Rivero (UvA), Etiënne Kras (Deltares) and Arjen Luijendijk (Deltares; Tu Delft).
 
 ## Configurations
 ```shell script
@@ -15,6 +15,23 @@ source venv/bin/activate
 ## Recommendations
 Explore and understand code and date with the example notebook (example.ipynb). If you just want to run everything
 at once, run ```python runner.py```
+
+Although the framework can be run inside a Docker container, this is not recommended yet. The models are built on top of
+[PyTorch](https://pytorch.org/), which makes the image extremely heavy. In near future a lighter image will be provided. 
+
+
+## Citation
+###Latex
+```
+@mastersthesis{Calkoen2020shorelines,
+	author = {Calkoen, Floris R.},
+	title = {Forecasting Shoreline Evolution Using Satellite-Derived Shoreline-Positions},
+	year = {2020},
+	note = {University of Amsterdam, The Netherlands},
+}
+```
+
+
 
  
 
