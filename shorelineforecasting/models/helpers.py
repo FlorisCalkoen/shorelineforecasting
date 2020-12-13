@@ -5,7 +5,7 @@ import torch
 
 from sklearn import preprocessing
 from torch.utils.data import DataLoader, TensorDataset
-from utils.forecasting_metrics import evaluate
+from shorelineforecasting.utils.forecasting_metrics import evaluate
 
 
 def seed_everything(seed):
@@ -58,18 +58,26 @@ def transform_alike(df, scaler):
     return pd.DataFrame(scaled, columns=df.columns, index=df.index), scaler
 
 
-def split_df(df, ratio):
+def split_df(df, ratio, transpose=False):
     """Input dataframe and return 2 DataFrames which were randomly split."""
-    df = df.T
+
+    if transpose is True:
+        df = df.T
+
     shuffled_idx = np.random.permutation(range(len(df)))
     split_idx = int(len(df) * ratio)
     split1 = df.iloc[shuffled_idx[:split_idx]]
     split2 = df.iloc[shuffled_idx[split_idx:]]
-    return split1.T, split2.T
+
+    if transpose is True:
+        return split1.T, split2.T
+
+    return split1, split2
 
 
-def get_scaled_splits(tsdf: pd.DataFrame, ratio=.8):
-    train_raw, test_raw = split_df(tsdf, ratio=ratio)
+
+def get_scaled_splits(timeframe: pd.DataFrame, ratio=.8):
+    train_raw, test_raw = split_df(timeframe, ratio=ratio)
     train, train_scaler = min_max_scale_dfwise(train_raw)
     test, test_scaler = transform_alike(test_raw, train_scaler)
     train, val = split_df(train, ratio=ratio)
@@ -77,23 +85,31 @@ def get_scaled_splits(tsdf: pd.DataFrame, ratio=.8):
     return train, val, test, test_raw, test_scaler
 
 
-def df2ds(df, train_window):
-    # split at train window
-    features = df[:train_window].T
-    targets = df[train_window:].T
+# def to_tensor_dataset(df, train_window):
+#     # split at train window
+#     features = df[:train_window].T
+#     targets = df[train_window:].T
+#
+#     # cast to pt tensor
+#     features = torch.tensor(features.values)
+#     targets = torch.tensor(targets.values)
+#
+#     return TensorDataset(features, targets)
 
-    # cast to pt tensor
-    features = torch.tensor(features.values)
-    targets = torch.tensor(targets.values)
 
+def to_tensor_dataset(tf, prediction_length, transpose=False):
+    if transpose is True:
+        tf = tf.T
+    features = torch.tensor(tf.iloc[:, :-prediction_length].values)
+    targets = torch.tensor(tf.iloc[:, -prediction_length:].values)
     return TensorDataset(features, targets)
 
 
-def get_torch_dataloaders(train, val, test, train_window, batch_size):
+def to_torch_dataloaders(train_ds, validation_ds, test_ds, prediction_length, batch_size):
     dataloaders = {
-        'train': DataLoader(df2ds(train, train_window), batch_size=batch_size, shuffle=True, drop_last=True),
-        'val': DataLoader(df2ds(val, train_window), batch_size=batch_size, shuffle=True, drop_last=True),
-        'test': DataLoader(df2ds(test, train_window), batch_size=batch_size, shuffle=False, drop_last=True),
+        'train': DataLoader(to_tensor_dataset(train_ds, prediction_length), batch_size=batch_size, shuffle=True, drop_last=True),
+        'val': DataLoader(to_tensor_dataset(validation_ds, prediction_length), batch_size=batch_size, shuffle=True, drop_last=True),
+        'test': DataLoader(to_tensor_dataset(test_ds, prediction_length), batch_size=batch_size, shuffle=False, drop_last=True),
     }
     trainiter = iter(dataloaders['train'])
     features, labels = next(trainiter)
@@ -108,12 +124,23 @@ def get_lstm_configs(tsdf, configs):
     return lstm_configs
 
 
-def pt2df(pt_forecast, model_configs, test_df, inverse_scaling=True, test_scaler=None):
-    df = pd.DataFrame(pt_forecast.numpy()[:, :, 0]).T
+def to_dataframe(forecast_tensor, model_configs, target, inverse_scaling=True, test_scaler=None, transpose=False):
+    df = pd.DataFrame(forecast_tensor.numpy()[:, :, 0])
+
+    if transpose is True:
+        df = df.T
+
     if inverse_scaling is True:
         df = pd.DataFrame(test_scaler.inverse_transform(df))
-    df.index = pd.RangeIndex(start=1984, stop=1984 + model_configs['forecast_size'], step=1)
-    df.columns = test_df.columns[:len(df.columns)]
+
+    if transpose is True:
+        df.index = pd.RangeIndex(start=1984, stop=1984 + model_configs['forecast_size'], step=1)
+        df.columns = target.columns[:len(df.columns)]
+
+    else:
+        df.index = target.index[:len(df)]
+        df.columns = pd.RangeIndex(start=1984, stop=1984 + model_configs['forecast_size'], step=1)
+
     return df
 
 
@@ -124,3 +151,8 @@ def evaluate_performance(s_true, s_pred, model_configs):
              model_configs['train_window']: model_configs['train_window'] + model_configs['output_size']].to_numpy()
     metrics = evaluate(true_y, pred_y, metrics=model_configs['evaluation'])
     return list(metrics.values())
+
+
+if __name__ == "__main__":
+    from shorelineforecasting.definitions import ROOT_DIR
+    print(ROOT_DIR)

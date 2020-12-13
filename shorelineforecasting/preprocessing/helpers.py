@@ -216,9 +216,12 @@ def save_preprocessed_data(tsdf, metadata, configs):
         pickle.dump(res, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def load_preprocessed_data(filename):
+def load_preprocessed_data(filename, absolute_path=False):
     """Input filepath of pkl file and return dictionary with preprocessed data."""
-    filepath = f"output/preprocessed/{filename}"
+    if absolute_path is True:
+        filepath = filename
+    else:
+        filepath = f"output/preprocessed/{filename}"
     with open(filepath, 'rb') as handle:
         res = pickle.load(handle)
     configs = res['configs']

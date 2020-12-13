@@ -1,8 +1,83 @@
 import numpy as np
 
 EPSILON = 1e-10
+zero_tol = 1e-8
 
 
+# gluonts error measures
+def abs_error(target, forecast):
+    return np.sum(np.abs(target - forecast))
+
+
+def abs_target_sum(target, forecast):
+    return np.sum(np.abs(target))
+
+
+def abs_target_mean(target, forecast):
+    return np.mean(np.abs(target))
+
+
+def seasonal_error(time_series, forecast):
+    past_data = time_series[:-len(forecast)]
+    y_t = past_data[:-1]
+    y_tm = past_data[1:]
+    return np.mean(abs(y_t - y_tm))
+
+
+def MSE(target, forecast):
+    return np.mean(np.square(target - forecast))
+
+
+def MAPE(target, forecast):
+    r"""
+    .. math::
+
+        mape = mean(|Y - Y_hat| / |Y|))
+    """
+
+    denominator = np.abs(target)
+    flag = denominator <= zero_tol
+
+    mape = np.mean(
+        (np.abs(target - forecast) * (1 - flag)) / (denominator + flag)
+    )
+    return mape
+
+
+def sMAPE(target, forecast):
+    r"""
+    .. math::
+
+        smape = mean(2 * |Y - Y_hat| / (|Y| + |Y_hat|))
+
+    https://www.m4.unic.ac.cy/wp-content/uploads/2018/03/M4-Competitors-Guide.pdf
+    """
+
+    denominator = np.abs(target) + np.abs(forecast)
+    flag = denominator <= zero_tol
+
+    smape = 2 * np.mean(
+        (np.abs(target - forecast) * (1 - flag)) / (denominator + flag)
+    )
+    return smape
+
+
+def MASE(target, forecast, seasonal_error=1):
+    r"""
+    .. math::
+
+        mase = mean(|Y - Y_hat|) / seasonal_error
+
+    https://www.m4.unic.ac.cy/wp-content/uploads/2018/03/M4-Competitors-Guide.pdf
+    """
+    flag = seasonal_error <= zero_tol
+    return (np.mean(np.abs(target - forecast)) * (1 - flag)) / (
+        seasonal_error + flag
+    )
+
+
+
+# old error metrices
 def _error(actual: np.ndarray, predicted: np.ndarray):
     """ Simple error """
     return actual - predicted
@@ -91,6 +166,10 @@ def mae(actual: np.ndarray, predicted: np.ndarray):
     """ Mean Absolute Error """
     return np.mean(np.abs(_error(actual, predicted)))
 
+# def abs_error(actual: np.ndarray, predicted: np.ndarray):
+#     """Summed absolute error """
+#     return np.sum(np.abs(_error(actual, predicted)))
+
 
 mad = mae  # Mean Absolute Deviation (it is the same as MAE)
 
@@ -161,6 +240,8 @@ def mase(actual: np.ndarray, predicted: np.ndarray, seasonality: int = 1):
     Baseline (benchmark) is computed with naive forecasting (shifted by @seasonality)
     """
     return mae(actual, predicted) / mae(actual[seasonality:], _naive_forecasting(actual, seasonality))
+
+
 
 
 def std_ae(actual: np.ndarray, predicted: np.ndarray):
@@ -249,6 +330,14 @@ def mda(actual: np.ndarray, predicted: np.ndarray):
 
 
 METRICS = {
+    'abs_error': abs_error,
+    'abs_target_sum': abs_target_sum,
+    'abs_target_mean': abs_target_mean,
+    'seasonal_error': seasonal_error,
+    'MSE': MSE,
+    'sMAPE': sMAPE,
+    'MAPE': MAPE,
+    'MASE': MASE,
     'mse': mse,
     'rmse': rmse,
     'nrmse': nrmse,
@@ -278,7 +367,7 @@ METRICS = {
     'gmrae': gmrae,
     'mbrae': mbrae,
     'umbrae': umbrae,
-    'mda': mda,
+    'mda': mda
 }
 
 
@@ -292,6 +381,28 @@ def evaluate(actual: np.ndarray, predicted: np.ndarray, metrics=('mae', 'mse', '
             print('Unable to compute metric {0}: {1}'.format(name, err))
     return results
 
+def evaluate_(time_series: np.ndarray, predicted: np.ndarray, metrics=('mae', 'mse', 'smape', 'umbrae')):
+    actual = time_series[-len(predicted):]
+    results = {}
+    for name in metrics:
+        try:
+            if name == 'MASE':
+                past_data = time_series[:-len(predicted)]
+                y_t = past_data[:-1]
+                y_tm = past_data[1:]
+                seasonal_mae = np.mean(abs(y_t - y_tm))
+                results[name] = METRICS[name](actual, predicted, seasonal_mae)
+            elif name == 'seasonal_error':
+                results[name] = METRICS[name](time_series, predicted)
+            else:
+                results[name] = METRICS[name](actual, predicted)
+        except Exception as err:
+            results[name] = np.nan
+            print('Unable to compute metric {0}: {1}'.format(name, err))
+    return results
+
 
 def evaluate_all(actual: np.ndarray, predicted: np.ndarray):
     return evaluate(actual, predicted, metrics=set(METRICS.keys()))
+
+
