@@ -1,6 +1,4 @@
-# Shoreline Forecasting Data Analysis
-
-## Traditional vs. Machine-Learning Methods for Forecasting Sandy Shoreline Evolution Using Historic Satellite-Derived Shorelines
+# Traditional vs. Machine-Learning Methods for Forecasting Sandy Shoreline Evolution Using Historic Satellite-Derived Shorelines
 
 Floris Calkoen, 2020, MSc Thesis Project Information Studies (University of Amsterdam) at
 Deltares (Delft), which was continued september 2020 - december 2020 to write an article about
