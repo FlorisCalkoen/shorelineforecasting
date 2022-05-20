@@ -4,8 +4,12 @@ Floris Calkoen, 2020, MSc Thesis Project Information Studies (University of Amst
 Deltares (Delft), which was continued september 2020 - december 2020 to write an article about
 the results.  
 
-Floris Calkoen, Arjen Luijendijk, Cristian ROdriguez Rivero, Etienne Kras, and Fedor
+Contributors: Floris Calkoen, Arjen Luijendijk, Cristian Rodriguez Rivero, Etienne Kras, and Fedor
 Baart.  
+
+
+Note, the code has not been maintained since 2020. Most likely there will be some dependency
+issues. Also the data which was used has been updated since then, so the preprocessing examples are problably also broken.
 
 ## Configurations
 
@@ -17,9 +21,6 @@ source venv/bin/activate
 ```
 
 ## Recommendations
-
-Note, the code has not been maintained since 2020. Most likely there will be some dependency
-issues.  
 
 Explore and understand code and date with the example notebook (example.ipynb). If you just want to run everything
 at once, run ```python runner.py``` from the shorelineforecasting directory. Alternatively, run directly from root using
